@@ -1,0 +1,22 @@
+h1 {
+    color: blueviolet;
+    border: gray solid;
+}
+
+p {
+    color: black;
+}
+
+body {
+    background-color: beige;
+    font-family: 'Times New Roman', Times, serif;
+    font-style: inherit;
+}
+
+em {
+    color: blue;
+}
+
+img {
+    border: blue solid;
+}
