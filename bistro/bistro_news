@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="styles.css">
+    <meta charset="utf-8">
+    <title>The Black Goose Bistro News</title>
+    <header>
+        <h1>The Black Goose Bistro News</h1>
+        <ul id="nav">
+            <li>Home</li>
+            <li>Menu</li>
+            <li>news</li>
+            <li>Contact</li>
+        </ul>
+    </header>
+</head>
+
+<body>
+    <article>
+        <header>
+            <h2>Summer Menu Items</h2>
+            <p>posted by BGB, <time datetime="20170618">June 18, 2017</time></p>
+        </header>
+
+        <p>Our chef has been busy putting together the perfect menu for the summer
+            months. Stop by to try these appetizers and main courses while the days
+            are still long.
+
+        <section id="appetizers">
+            <h3>Appetizers</h3>
+            <dl>
+                <u>
+                    <dt>Black bean purses</dt>
+                </u>
+                <dd>Spicy black bean and a blend of Mexican cheeses wrapped in sheets of
+                    phyllo and baked until golden.
+                    <span class="price">$3.95</span>
+                </dd>
+                <u>
+                    <dt class="newitem"> <b>Southwestern napoleons with lump crab</b>
+                </u><em> - <strong>new item!</strong></em></dt>
+
+                <dd>Layers of light lump crab meat, bean and corn salsa, and our handmade
+                    flour tortillas.
+                    <span class="price">$7.95</span>
+                </dd>
+            </dl>
+        </section>
+
+        <section id="maincourses">
+            <h3>Main courses</h3>
+            <dl>
+                <u>
+                    <dt>Shrimp sate kebabs with peanut sauce</dt>
+                </u>
+                <dd>Skewers of shrimp marinated in lemongrass, garlic, and fish sauce then
+                    grilled to perfection. Served with spicy peanut sauce and jasmine rice.
+                    <span class="price">$12.95</span>
+                </dd>
+                <u>
+                    <dt class="newitem"> <b>Jerk rotisserie chicken with fried plantains</b>
+                </u> <em> - <strong>new item!</strong></em></dt>
+
+                <dd>Tender chicken slow-roasted on the rotisserie, flavored with spicy and
+                    fragrant jerk sauce and served with fried plantains and fresh mango.
+                    <span class="price">$12.95</span>
+                </dd>
+            </dl>
+        </section>
+        </p>
+    </article>
+    <article>
+        <header>
+            <h2>Low and Slow</h2>
+            <p> posted by BGB, <time datetime="20161115">November 15, 2016</time></p>
+        </header>
+        <p>This week I am <em>extremely</em> excited about a new
+            cooking technique called <b><dfn>sous vide</dfn></b>. In <i>sous vide</i>
+            cooking, you submerge the food (usually vacuum-sealed
+            in plastic) into a water bath that is precisely
+            set to the target temperature you want the food
+            to be cooked to. In his book, <cite>Cooking for Geeks</cite>,
+            Jeff Potter describes it as <q>ultra-low-temperature
+                poaching</q>.</p>
+        <p>Next month, we will be serving <i>sous vide</i> Salmon
+            with Dill Hollandaise. To reserve a seat at the chef
+            table, contact us before <time datetime="20231130">November 30</time>.</p>
+        <p>blackgoose@example.com
+            555-336-1800</p>
+        <p><small>Warning: <i>sous vide</i> cooked salmon is not
+                pasteurized. Avoid it if you are pregnant or have
+                immunity issues.</small></p>
+        <br>
+    </article>
+    <footer>
+        <div class="about">
+            <p>Location: <br> Baker’s Corner, Seekonk, MA</p>
+            <p>Hours: <br> <time>Tuesday to Saturday, 11am to 11pm</time></p>
+        </div>
+
+        <p><small>All content copyright 2017, Black Goose Bistro and Jennifer Robbins &copy;</small></p>
+    </footer>
+</body>
+
+</html>
