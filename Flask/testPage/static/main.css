@@ -1,21 +1,33 @@
 .navbar {
-    background-color: rgb(7, 7, 27);
-    border-right-color: aquamarine;
+    background-color: rgb(0, 0, 0);
 }
 
 .btn-outline-success {
---bs-btn-color: #c40d0d;
---bs-btn-border-color: #c40d0d;
---bs-btn-hover-color: #000000;
---bs-btn-hover-bg: #c40d0d;
---bs-btn-hover-border-color: #050101;
---bs-btn-focus-shadow-rgb: 25,135,84;
---bs-btn-active-color: #fff;
---bs-btn-active-bg: #198754;
---bs-btn-active-border-color: #198754;
---bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
---bs-btn-disabled-color: #198754;
---bs-btn-disabled-bg: transparent;
---bs-btn-disabled-border-color: #198754;
---bs-gradient: none;
+    --bs-btn-color: #c40d0d;
+    --bs-btn-border-color: #c40d0d;
+    --bs-btn-hover-color: #000000;
+    --bs-btn-hover-bg: #c40d0d;
+    --bs-btn-hover-border-color: #050101;
+    --bs-btn-focus-shadow-rgb: 25, 135, 84;
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: #198754;
+    --bs-btn-active-border-color: #198754;
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    --bs-btn-disabled-color: #198754;
+    --bs-btn-disabled-bg: transparent;
+    --bs-btn-disabled-border-color: #198754;
+    --bs-gradient: none;
+}
+
+
+#p2 {
+    font-family: Arial, Helvetica, sans-serif;
+    font-style: inherit;
+
+}
+
+#p3 {
+    font-family: "Lucida Console", "Courier New", monospace;
+    font-style: inherit;
+
 }
