@@ -18,10 +18,10 @@
     --bs-btn-disabled-border-color: #198754;
     --bs-gradient: none;
     --bs-btn-padding: 20;
+    --bs-btn-padding-top: 50;
 }
 
-
-#p2 {
+/* #p2 {
     font-family: Arial, Helvetica, sans-serif;
     font-style: inherit;
 
@@ -31,14 +31,37 @@
     font-family: "Lucida Console", "Courier New", monospace;
     font-style: inherit;
 
+} */
+
+head {
+    font-family: 'Stick No Bills', sans-serif;
 }
 
 body {
-    background-color: rgb(255, 255, 255);
+    font-family: 'Stick No Bills', sans-serif;
+    background-color: rgb(205, 205, 205);
 }
+
+
 
 h1 {
     font-size: 60px;
+    font-family: 'Stick No Bills', sans-serif;
+}
+
+h3 {
+    font-size: 35px;
+    font-family: 'Stick No Bills', sans-serif;
+}
+
+h4{
+    font-family: 'Stick No Bills', sans-serif;
+}
+
+.btn {
+
+    font-family : 'Stick No Bills', sans-serif;
+    font-size: 1em;
 }
 
 header {
@@ -49,24 +72,19 @@ header {
     background-color: #f2f2f2;
 }
 
-.logo {
-    display: flex;
-    align-items: center;
+
+#navbtn {
     justify-content: center;
-    flex-direction: column;
+    align-items: center;
 }
 
-.logo img {
-    max-width: 250px;
-    height: auto;
-    margin: 0 auto;
+.navbar>.container-fluid {
+    align-items: start;
+    justify-content: start;
 }
 
-.logo h1 {
-    align-items: flex-end;
-    margin: 0;
+#websiteName {
     font-size: 60px;
-    text-align: right;
-    padding: 10px;
-    color: #333;
+    color: white;
+    padding-top: 120px;
 }

@@ -10,21 +10,28 @@
         integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <link rel="stylesheet" href="/static/main.css">
 
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Stick+No+Bills:wght@300&display=swap" rel="stylesheet">
+
     <!-- Navbar -->
-    <nav class="navbar navbar-dark bg-dark" style="justify-content: center;">
-        <button class="btn btn-outline-success me-2" type="button"
-            onclick="location.href='http://127.0.0.1:5000/home'">Home</button>
-        <button class="btn btn-outline-success me-2" type="button"
-            onclick="location.href='http://127.0.0.1:5000/about'">About</button>
-        <button class="btn btn-outline-success me-2" type="button"
-            onclick="location.href='http://127.0.0.1:5000/contact'">Contact</button>
+    <nav class="navbar navbar-dark bg-dark">
+        <div class="container-fluid" style="justify-content: center; display: flex;">
+            <button class="btn btn-outline-light me-2" type="button"
+                onclick="location.href='http://127.0.0.1:5000/home'">Home</button>
+            <button class="btn btn-outline-light me-2" type="button"
+                onclick="location.href='http://127.0.0.1:5000/about'">About</button>
+            <button class="btn btn-outline-light me-2" type="button"
+                onclick="location.href='http://127.0.0.1:5000/contact'">Contact</button>
+        </div>
+
+        <div class="container-fluid">
+            <img src="/static/logo4.png" alt="" width="200" height="200" class="d-inline-block align-text-bottom">
+            <h1 id="websiteName">flaskTest</h1>
+        </div>
     </nav>
 
-    <!-- Header -->
-    <div class="logo">
-        <img src="/static/logo4.png" alt="Logo">
-    </div>
-    
     <!-- Title -->
     {% if title %}
     <title>flaskTest - {{ title }}</title>
@@ -35,7 +42,7 @@
 
 <body>
 
-    <div class="container">
+    <div class="container-fluid" style="display: flex; padding-top: 50px;">
         {% block content %}{% endblock %}
     </div>
 
