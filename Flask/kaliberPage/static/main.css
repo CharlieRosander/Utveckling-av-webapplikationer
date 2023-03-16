@@ -53,29 +53,35 @@ h4 {
     height: 50px;
 }
 
-#weatherform button{
+#weatherform button {
     margin-left: 10px;
 }
 
-#chat-message{
+#chat-message {
     font-size: 20px;
 }
 
 #chat-form button {
     margin-left: 10px;
-  }
+}
 
 #navbtn {
     justify-content: center;
     align-items: center;
+}
 
-
+#timeanddate {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    margin-right: 20px;
 }
 
 .navbar>.container-fluid {
     align-items: start;
     justify-content: start;
 }
+
 
 #websiteName {
     font-size: 60px;
@@ -110,4 +116,9 @@ h4 {
 .thinking-message {
     font-style: italic;
     color: gray;
+}
+
+#timeanddate {
+    color: white;
+    font-size: 15px;
 }

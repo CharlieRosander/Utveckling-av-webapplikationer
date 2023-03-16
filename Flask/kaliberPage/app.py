@@ -3,8 +3,11 @@ from dotenv import load_dotenv
 import requests
 import openai
 import os
+import datetime
 
 app = Flask(__name__, static_url_path='/static')
+
+current_time = datetime.datetime.now()
 
 load_dotenv()
 openai.api_key = os.getenv('OPENAI_API_KEY')
