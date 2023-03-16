@@ -8,7 +8,7 @@
     </div>
 
 
-    <div class="container-fluid" style="display: grid; justify-content: start;">
+    <div id="weathercontainer" class="container-fluid">
         <form id="weatherform" action="/" method="GET">
             <div style="display: flex">
                 <input type="text" name="city" placeholder="Enter city name:" style="font-size: 21px;">
@@ -16,8 +16,10 @@
             </div>
         </form>
 
-        <h3>Current Weather in:</h3>
-        <h3>{{ location }}</h3>
+        <h3 style="margin-top: none; margin-bottom: 40px;">
+            <p>Current Weather in:</p>
+            <p>{{ location }}</p>
+        </h3>
         <h4>
             <p>
                 Temperature:
@@ -30,8 +32,6 @@
                     feels like <strong>{{ feels_like }}°C</strong>
                 </p>
             </h5>
-
-
         </h4>
         <h4>
             <p>
