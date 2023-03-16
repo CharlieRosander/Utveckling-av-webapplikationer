@@ -26,6 +26,17 @@ app = Flask(__name__)
 
 def hello_world():
     return "<p>Hello, World!</p>"'
+
+Write-output '-------------------------------------------------'
+Write-output ' '
+Write-output 'Creating app.py file, please wait...'
+New-item .gitignore
+Write-output ' '
+Write-output '-------------------------------------------------'
+Write-output 'Setting content of app.py, please wait...'
+Set-content .gitignore '.env'
+Write-output '-------------------------------------------------'
+
 Write-output ' '
 Write-output '-------------------------------------------------'
 Write-output ' '

@@ -1,0 +1,113 @@
+.bg-light {
+    background-color: rgb(199, 199, 199);
+}
+
+.btn-outline-success {
+    --bs-btn-color: #d4d4d4;
+    --bs-btn-border-color: #d4d4d4;
+    --bs-btn-hover-color: #000000;
+    --bs-btn-hover-bg: #d4d4d4;
+    --bs-btn-hover-border-color: #050101;
+    --bs-btn-focus-shadow-rgb: 25, 135, 84;
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: #198754;
+    --bs-btn-active-border-color: #198754;
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    --bs-btn-disabled-color: #198754;
+    --bs-btn-disabled-bg: transparent;
+    --bs-btn-disabled-border-color: #198754;
+    --bs-gradient: none;
+    --bs-btn-padding: 20;
+    --bs-btn-padding-top: 50;
+}
+
+head {
+    font-family: 'Stick No Bills', sans-serif;
+}
+
+
+body {
+    font-family: 'Stick No Bills', sans-serif;
+    background-color: rgb(238, 238, 238);
+}
+
+h1 {
+    font-size: 60px;
+    font-family: 'Stick No Bills', sans-serif;
+}
+
+h3 {
+    font-size: 35px;
+    font-family: 'Stick No Bills', sans-serif;
+}
+
+h4 {
+    font-family: 'Stick No Bills', sans-serif;
+}
+
+.btn {
+
+    font-family: 'Stick No Bills', sans-serif;
+    font-size: 1em;
+    width: 150px;
+    height: 50px;
+}
+
+#weatherform button{
+    margin-left: 10px;
+}
+
+#chat-message{
+    font-size: 20px;
+}
+
+#chat-form button {
+    margin-left: 10px;
+  }
+
+#navbtn {
+    justify-content: center;
+    align-items: center;
+
+
+}
+
+.navbar>.container-fluid {
+    align-items: start;
+    justify-content: start;
+}
+
+#websiteName {
+    font-size: 60px;
+    color: white;
+    padding-top: 120px;
+}
+
+.weather-image {
+    width: 75px;
+    height: 75px;
+}
+
+.chat-message {
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 10px;
+    max-width: 70%;
+}
+
+.user-message {
+    background-color: #ffdfda;
+    align-self: flex-start;
+    font-size: 20px;
+}
+
+.bot-message {
+    background-color: #d6e9f9;
+    align-self: flex-end;
+    font-size: 20px;
+}
+
+.thinking-message {
+    font-style: italic;
+    color: gray;
+}

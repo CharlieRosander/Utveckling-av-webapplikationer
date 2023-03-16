@@ -17,11 +17,20 @@
 <div class="container-fluid">
     <div class="container-fluid" style="display: grid; justify-content: center;">
         <h1>ChatGPT</h1>
+        <h4>
+            <p>
+                This page is using OpenAI's API to enable "chat-completion" using the model "text-davinci-003".
+            </p>
+            <p>
+                Try the ChatGPT by writing something in the input field below!
+            </p>
+        </h4>
         <div id="chat-log"></div>
         <form id="chat-form">
             <div style="display: flex">
                 <input id="chat-message" autocomplete="off" style="size: 100px;"></input>
-                <!-- <textarea id="chat-message" autocomplete="off" rows="2" cols="60"></textarea> -->
+                <!-- <input id="chat-message" class="form-control form-control-lg" autocomplete="off"
+                    style="size: 100px;"></input> -->
                 <button class="btn btn-dark" type="submit">Send</button>
             </div>
         </form>
