@@ -1,9 +1,54 @@
 {% extends "layout.html" %}
 {% block content %}
-<div>
-    <h3>
-        <p>This is the home page of my fantastic website.</p>
-    </h3>
+<div class="container-fluid" style="min-height: 550px;">
+    <div style="justify-content: center; display: flex;">
+        <h3>
+            <p>This is the home page of my fantastic website.</p>
+        </h3>
+    </div>
+
+
+    <div class="container-fluid" style="display: grid; justify-content: start;">
+        <form id="weatherform" action="/" method="GET">
+            <div style="display: flex">
+                <input type="text" name="city" placeholder="Enter city name:" style="font-size: 21px;">
+                <button class="btn btn-dark" type="submit" style="height: auto; width: auto;">Get weather</button>
+            </div>
+        </form>
+
+        <h3>Current Weather in:</h3>
+        <h3>{{ location }}</h3>
+        <h4>
+            <p>
+                Temperature:
+            </p>
+            <p>
+                <strong>{{ temperature }}°C</strong>
+            </p>
+            <h5>
+                <p>
+                    feels like <strong>{{ feels_like }}°C</strong>
+                </p>
+            </h5>
+
+
+        </h4>
+        <h4>
+            <p>
+                Weather:
+            </p>
+            <p>
+                {{ description }}
+                {% if image %}
+                <img src="{{ image }}" alt="Weather Image" class="weather-image">
+                {% endif %}
+            </p>
+
+        </h4>
+
+    </div>
+
+
 </div>
 
 {% endblock content %}

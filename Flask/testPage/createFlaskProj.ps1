@@ -18,9 +18,12 @@ Write-output ' '
 Write-output '-------------------------------------------------'
 Write-output ' '
 Write-output 'Setting content of app.py, please wait...'
-Set-content app.py 'from flask import Flask
+Set-content app.py 'from flask import Flask, render_template, url_for, request
+
 app = Flask(__name__)
+
 @app.route("/")
+
 def hello_world():
     return "<p>Hello, World!</p>"'
 Write-output ' '
@@ -36,8 +39,8 @@ Write-output ' '
 
 Write-output '-------------------------------------------------'
 Write-output ' '
-Write-output 'Running pip install flask, please wait...'
-pip install flask
+Write-output 'Running pip install "requirements, please wait...'
+pip install -r 'reqs.txt'
 Write-output ' '
 Write-output '-------------------------------------------------'
 

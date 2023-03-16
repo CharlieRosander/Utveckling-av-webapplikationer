@@ -21,28 +21,15 @@
     --bs-btn-padding-top: 50;
 }
 
-/* #p2 {
-    font-family: Arial, Helvetica, sans-serif;
-    font-style: inherit;
-
-}
-
-#p3 {
-    font-family: "Lucida Console", "Courier New", monospace;
-    font-style: inherit;
-
-} */
-
 head {
     font-family: 'Stick No Bills', sans-serif;
 }
 
+
 body {
     font-family: 'Stick No Bills', sans-serif;
-    background-color: rgb(205, 205, 205);
+    background-color: rgb(238, 238, 238);
 }
-
-
 
 h1 {
     font-size: 60px;
@@ -54,28 +41,35 @@ h3 {
     font-family: 'Stick No Bills', sans-serif;
 }
 
-h4{
+h4 {
     font-family: 'Stick No Bills', sans-serif;
 }
 
 .btn {
 
-    font-family : 'Stick No Bills', sans-serif;
+    font-family: 'Stick No Bills', sans-serif;
     font-size: 1em;
+    width: 150px;
+    height: 50px;
 }
 
-header {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100px;
-    background-color: #f2f2f2;
+#weatherform button{
+    margin-left: 10px;
 }
 
+#chat-message{
+    font-size: 20px;
+}
+
+#chat-form button {
+    margin-left: 10px;
+  }
 
 #navbtn {
     justify-content: center;
     align-items: center;
+
+
 }
 
 .navbar>.container-fluid {
@@ -87,4 +81,9 @@ header {
     font-size: 60px;
     color: white;
     padding-top: 120px;
+}
+
+.weather-image {
+    width: 75px;
+    height: 75px;
 }

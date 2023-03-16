@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+{% block content %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#chat-form').submit(function (event) {
+            event.preventDefault();
+            var message = $('#chat-message').val();
+            $.post('/chat', { 'message': message }, function (response) {
+                $('#chat-log').append('<div class="chat-message">You: ' + message + '</div>');
+                $('#chat-log').append('<div class="chat-message">ChatGPT: ' + response + '</div>');
+                $('#chat-message').val('');
+            });
+        });
+    });
+</script>
+<div class="container-fluid">
+    <div class="container-fluid" style="display: grid; justify-content: center;">
+        <h1>ChatGPT</h1>
+        <div id="chat-log"></div>
+        <form id="chat-form">
+            <div style="display: flex">
+                <input id="chat-message" autocomplete="off" style="size: 100px;"></input>
+                <!-- <textarea id="chat-message" autocomplete="off" rows="2" cols="60"></textarea> -->
+                <button class="btn btn-dark" type="submit">Send</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock content %}
