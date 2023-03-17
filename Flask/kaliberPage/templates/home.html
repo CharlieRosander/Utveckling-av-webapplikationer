@@ -6,8 +6,6 @@
             <p>This is the home page of my fantastic website.</p>
         </h3>
     </div>
-
-
     <div id="weathercontainer" class="container-fluid">
         <form id="weatherform" action="/" method="GET">
             <div style="display: flex">
@@ -15,40 +13,40 @@
                 <button class="btn btn-dark" type="submit" style="height: auto; width: auto;">Get weather</button>
             </div>
         </form>
-
-        <h3 style="margin-top: none; margin-bottom: 40px;">
-            <p>Current Weather in:</p>
-            <p>{{ location }}</p>
-        </h3>
-        <h4>
-            <p>
-                Temperature:
-            </p>
-            <p>
-                <strong>{{ temperature }}°C</strong>
-            </p>
-            <h5>
+        <div class="container-fluid" style="display: grid;">
+            <h3 style="margin-top: 30px; margin-bottom: 40px;">
+                <p>Current Weather in:</p>
+                <p>{{ location }}</p>
+            </h3>
+            <h4>
                 <p>
-                    feels like <strong>{{ feels_like }}°C</strong>
+                    Temperature:
                 </p>
-            </h5>
-        </h4>
-        <h4>
-            <p>
-                Weather:
-            </p>
-            <p>
-                {{ description }}
-                {% if image %}
-                <img src="{{ image }}" alt="Weather Image" class="weather-image">
-                {% endif %}
-            </p>
+                <p>
+                    <strong>{{ temperature }}°C</strong>
+                </p>
+                <h5>
+                    <p>
+                        feels like <strong>{{ feels_like }}°C</strong>
+                    </p>
+                </h5>
+            </h4>
+            <h4>
+                <p>
+                    Weather:
+                </p>
+                <p>
+                    {{ description }}
+                </p>
+                <div style="justify-content: end;">
+                    {% if image %}
+                    <img src="{{ image }}" alt="Weather Image" class="weather-image">
+                    {% endif %}
+                </div>
 
-        </h4>
-
+            </h4>
+        </div>
     </div>
-
-
 </div>
 
 {% endblock content %}
