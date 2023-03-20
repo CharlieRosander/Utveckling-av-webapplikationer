@@ -14,7 +14,7 @@ current_time = datetime.datetime.now()
 load_dotenv()
 openai.api_key = os.getenv('OPENAI_API_KEY')
 openweathermap_api_key = os.getenv('OPENWEATHERMAP_API_KEY')
-app.secret_key = 'my-secret-key'
+app.secret_key = 'hejhopp'
 
 weather_images = {
     'clear sky': 'https://openweathermap.org/img/wn/01d@2x.png',
@@ -23,6 +23,7 @@ weather_images = {
     'broken clouds': 'https://openweathermap.org/img/wn/04d@2x.png',
     'shower rain': 'https://openweathermap.org/img/wn/09d@2x.png',
     'rain': 'https://openweathermap.org/img/wn/10d@2x.png',
+    'light rain': 'https://openweathermap.org/img/wn/10d@2x.png',
     'thunderstorm': 'https://openweathermap.org/img/wn/11d@2x.png',
     'snow': 'https://openweathermap.org/img/wn/13d@2x.png',
 }
@@ -47,9 +48,11 @@ def login():
             flash('Invalid username or password', 'danger')
     return render_template('login.html')
 
+
 @app.route("/signup")
 def sign_up():
     return render_template('signup.html')
+
 
 @app.route('/add_user', methods=['POST'])
 def add_user():
@@ -65,6 +68,9 @@ def add_user():
 
 @app.route("/home")
 def home_page():
+    if 'user_id' not in session:  # check if the user is not logged in
+        return redirect(url_for('login'))
+
     city_query = request.args.to_dict()
     city = city_query.get('city', 'Stockholm')
 
@@ -84,7 +90,11 @@ def home_page():
     except (KeyError, IndexError):
         return render_template('home.html')
 
-    return render_template('home.html', location=location, temperature=temperature, description=description, feels_like=feels_like, image=image)
+    current_user = None
+    if 'user_id' in session:
+        current_user = User.query.filter_by(id=session['user_id']).first()
+        print(current_user)
+    return render_template('home.html', location=location, temperature=temperature, description=description, feels_like=feels_like, image=image, current_user=current_user)
 
 
 @app.route('/chatgpt')
@@ -120,7 +130,6 @@ def contact_page():
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.secret_key = 'hejhopp'
 db = SQLAlchemy(app)
 
 
@@ -140,12 +149,6 @@ def create_tables():
 
 with app.app_context():
     create_tables()
-
-@app.route('/users')
-def users():
-    all_users = User.query.all()
-    return render_template('users.html', users=all_users)
-
 
 if __name__ == "__main__":
     app.run(debug=True)

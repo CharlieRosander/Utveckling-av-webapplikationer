@@ -1,0 +1,269 @@
+/* NAVBAR */
+.navbar>.container-fluid {
+    align-items: start;
+    justify-content: start;
+}
+
+#navbtn {
+    justify-content: center;
+    align-items: center;
+}
+
+/* CHATGPT API */
+#chat-form button {
+    margin-left: 10px;
+}
+
+.chat-message {
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 10px;
+    max-width: 70%;
+}
+
+.user-message {
+    background-color: #ffdfda;
+    align-self: flex-start;
+    font-size: 20px;
+}
+
+.bot-message {
+    background-color: #d6e9f9;
+    align-self: flex-end;
+    font-size: 20px;
+}
+
+.thinking-message {
+    font-style: italic;
+    color: gray;
+}
+
+/* DATETIME */
+#timeanddate {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    margin-right: 20px;
+    color: white;
+    font-size: 15px;
+}
+
+/* WEATHER API */
+#weathercontainer {
+    display: grid;
+    justify-content: start;
+    width: 500px;
+    position: absolute;
+    background-color: #212529;
+}
+
+/* Styling for weather container */
+#weathercontainer {
+    background-color: #212529;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    margin: 20px;
+    padding: 20px;
+    max-width: 500px;
+    width: 100%;
+    color: #d6e9f9;
+}
+
+/* Styling for input and button */
+#weatherform input[type="text"] {
+    border: none;
+    border-radius: 5px 0 0 5px;
+    padding: 10px;
+    width: 70%;
+}
+
+#weatherform button {
+    background-color: #212529;
+    border: 2px solid #fff;
+    border-color: #fff;
+    border-radius: 0 5px 5px 0;
+    color: #fff;
+    padding: 10px;
+    width: 30%;
+}
+
+#weatherform button:hover {
+    background-color: white;
+    color: black;
+    border-color: black;
+}
+
+.weather-image {
+    display: block;
+    margin-top: 10px;
+    max-width: 100%;
+}
+
+/* LOG IN PAGE */
+#loginformcontainer {
+    display: grid;
+    justify-content: center;
+    min-height: 150%;
+    align-content: center;
+    margin-top: -30px;
+}
+
+#loginform {
+    align-items: end;
+    display: grid;
+    align-content: center;
+}
+
+#logincontainer h1 {
+    font-family: 'Stick No Bills', sans-serif;
+    font-size: 40px;
+    font-weight: bold;
+}
+
+#loginform label {
+    font-family: 'Stick No Bills', sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+#loginform input {
+    font-family: 'Stick No Bills', sans-serif;
+    font-size: 20px;
+    font-weight: normal;
+}
+
+#loginform button[type="submit"] {
+    font-family: 'Stick No Bills', sans-serif;
+    font-size: 18px ;
+    font-weight: bold;
+    text-transform: uppercase;
+    background-color: #212529;
+    border: 2px solid #fff;
+    border-color: #fff;
+    border-radius: 5px 5px 5px 0;
+    color: #fff;
+    padding: 10px;
+    width: 100%;
+    margin-top: 10px;
+}
+
+#loginform button:hover {
+    background-color: white;
+    color: black;
+    border-color: black;
+}
+
+
+/* SIGN UP PAGE */
+#signupformcontainer {
+    display: grid;
+    justify-content: center;
+    min-height: 150%;
+    align-content: center;
+    margin-top: -30px;
+}
+
+#signupform {
+    align-items: end;
+    display: grid;
+    align-content: center;
+}
+
+#signupcontainer h1 {
+    font-family: 'Stick No Bills', sans-serif;
+    font-size: 40px;
+    font-weight: bold;
+}
+
+#signupform label {
+    font-family: 'Stick No Bills', sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+#signupform input {
+    font-family: 'Stick No Bills', sans-serif;
+    font-size: 20px;
+    font-weight: normal;
+}
+
+#signupform button[type="submit"] {
+    font-family: 'Stick No Bills', sans-serif;
+    font-size: 18px ;
+    font-weight: bold;
+    text-transform: uppercase;
+    background-color: #212529;
+    border: 2px solid #fff;
+    border-color: #fff;
+    border-radius: 5px 5px 5px 0;
+    color: #fff;
+    padding: 10px;
+    width: 100%;
+    margin-top: 10px;
+}
+
+#signupform button:hover {
+    background-color: white;
+    color: black;
+    border-color: black;
+}
+
+/* H1-5, P, HEAD, BODY, BTN, WEBSITENAME STYLING */
+head {
+    font-family: 'Stick No Bills', sans-serif;
+}
+
+
+body {
+    font-family: 'Stick No Bills', sans-serif;
+    background-color: rgb(238, 238, 238);
+}
+
+h1 {
+    font-size: 60px;
+    font-family: 'Stick No Bills', sans-serif;
+}
+
+h3 {
+    font-size: 35px;
+    font-family: 'Stick No Bills', sans-serif;
+}
+
+h4 {
+    font-family: 'Stick No Bills', sans-serif;
+    margin-top: 10px;
+}
+
+h5 {
+    margin: 5px 0 0 0;
+}
+
+p {
+    margin: 0;
+}
+
+.btn-outline-success {
+    --bs-btn-color: #d4d4d4;
+    --bs-btn-border-color: #d4d4d4;
+    --bs-btn-hover-color: #000000;
+    --bs-btn-hover-bg: #d4d4d4;
+    --bs-btn-hover-border-color: #050101;
+    --bs-btn-focus-shadow-rgb: 25, 135, 84;
+    --bs-btn-active-color: #fff;
+    --bs-gradient: none;
+    --bs-btn-padding: 20;
+    --bs-btn-padding-top: 50;
+}
+
+.btn {
+    font-family: 'Stick No Bills', sans-serif;
+    font-size: 1em;
+    width: 150px;
+    height: 50px;
+}
+
+#websiteName {
+    font-size: 60px;
+    color: white;
+    padding-top: 120px;
+}

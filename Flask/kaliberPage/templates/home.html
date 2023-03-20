@@ -1,5 +1,6 @@
 {% extends "layout.html" %}
 {% block content %}
+<title>Home</title>
 <div class="container-fluid" style="min-height: 550px;">
     <div style="justify-content: center; display: flex;">
         <h3>
@@ -7,7 +8,7 @@
         </h3>
     </div>
     <div id="weathercontainer" class="container-fluid">
-        <form id="weatherform" action="/" method="GET">
+        <form id="weatherform" action="{{ url_for('home_page') }}" method="GET">
             <div style="display: flex">
                 <input type="text" name="city" placeholder="Enter city name:" style="font-size: 21px;">
                 <button class="btn btn-dark" type="submit" style="height: auto; width: auto;">Get weather</button>
