@@ -1,6 +1,8 @@
 Instruktioner för att få igång flask-appen
 
-1. Skapa en tom mapp för projektet och extrahera rar filen i den
+LÄNK TILL REPO: https://github.com/CharlieRosander/kaliberTestPage
+
+1. Skapa en tom mapp för projektet och extrahera rar filen i den, använder du GitHub så klonar du repon till valfri plats
 2. Navigera till den mappen i powershell och skapa venv:en med python -m venv venv
 3. Aktivera venv-skriptet
 4. Projektet innehåller en txt-fil med modulerna som krävs, kör därför "pip install -r reqs.txt"
