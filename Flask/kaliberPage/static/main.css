@@ -1,5 +1,10 @@
 /* NAVBAR */
-.navbar>.container-fluid {
+#navcontainer {
+    justify-content: center;
+    display: flex;
+}
+
+#logocontainer {
     align-items: start;
     justify-content: start;
 }
@@ -7,6 +12,18 @@
 #navbtn {
     justify-content: center;
     align-items: center;
+}
+
+/* BODY */
+#bodypage {
+    display: flex;
+    padding-top: 50px;
+    min-height: 900px;
+}
+
+#creator-text {
+    justify-content: start;
+    display: flex;
 }
 
 /* CHATGPT API */
@@ -57,7 +74,6 @@
     background-color: #212529;
 }
 
-/* Styling for weather container */
 #weathercontainer {
     background-color: #212529;
     border-radius: 10px;
@@ -69,7 +85,6 @@
     color: #d6e9f9;
 }
 
-/* Styling for input and button */
 #weatherform input[type="text"] {
     border: none;
     border-radius: 5px 0 0 5px;
@@ -134,7 +149,7 @@
 
 #loginform button[type="submit"] {
     font-family: 'Stick No Bills', sans-serif;
-    font-size: 18px ;
+    font-size: 18px;
     font-weight: bold;
     text-transform: uppercase;
     background-color: #212529;
@@ -189,7 +204,7 @@
 
 #signupform button[type="submit"] {
     font-family: 'Stick No Bills', sans-serif;
-    font-size: 18px ;
+    font-size: 18px;
     font-weight: bold;
     text-transform: uppercase;
     background-color: #212529;
@@ -213,7 +228,6 @@ head {
     font-family: 'Stick No Bills', sans-serif;
 }
 
-
 body {
     font-family: 'Stick No Bills', sans-serif;
     background-color: rgb(238, 238, 238);
@@ -224,8 +238,12 @@ h1 {
     font-family: 'Stick No Bills', sans-serif;
 }
 
+h2 {
+    font-size: 40px;
+}
+
 h3 {
-    font-size: 35px;
+    font-size: 30px;
     font-family: 'Stick No Bills', sans-serif;
 }
 

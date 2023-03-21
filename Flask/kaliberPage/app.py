@@ -7,6 +7,8 @@ import openai
 import os
 import datetime
 
+# Program skrivet av Charlie Rosander
+
 app = Flask(__name__, static_url_path='/static')
 
 current_time = datetime.datetime.now()
@@ -21,23 +23,22 @@ weather_images = {
     'few clouds': 'https://openweathermap.org/img/wn/02d@2x.png',
     'scattered clouds': 'https://openweathermap.org/img/wn/03d@2x.png',
     'broken clouds': 'https://openweathermap.org/img/wn/04d@2x.png',
+    'overcast clouds': 'https://openweathermap.org/img/wn/04d@2x.png',
     'shower rain': 'https://openweathermap.org/img/wn/09d@2x.png',
     'rain': 'https://openweathermap.org/img/wn/10d@2x.png',
     'light rain': 'https://openweathermap.org/img/wn/10d@2x.png',
     'thunderstorm': 'https://openweathermap.org/img/wn/11d@2x.png',
     'snow': 'https://openweathermap.org/img/wn/13d@2x.png',
+    'fog': 'https://openweathermap.org/img/wn/50d@2x.png'
 }
 
 
 @app.route("/")
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    print('login func called')
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-
-        print(f'username: {username}, password: {password}')
 
         user = User.query.filter_by(username=username).first()
         if user and check_password_hash(user.password, password):
@@ -68,7 +69,7 @@ def add_user():
 
 @app.route("/home")
 def home_page():
-    if 'user_id' not in session:  # check if the user is not logged in
+    if 'user_id' not in session:
         return redirect(url_for('login'))
 
     city_query = request.args.to_dict()
@@ -93,7 +94,6 @@ def home_page():
     current_user = None
     if 'user_id' in session:
         current_user = User.query.filter_by(id=session['user_id']).first()
-        print(current_user)
     return render_template('home.html', location=location, temperature=temperature, description=description, feels_like=feels_like, image=image, current_user=current_user)
 
 

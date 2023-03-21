@@ -1,16 +1,26 @@
 {% extends "layout.html" %}
 {% block content %}
 <title>About</title>
-<div class="container-fluid">
+<div id="about-text" class="container-fluid">
     <h1>
-        <p>About flaskTest</p>
+        <p>About KaliberTestPage</p>
     </h1>
-    <h2>
-        <p id="p2">This website is for testing purposes</p>
-        <p id="p3">Sample Text two</p>
-    </h2>
-
-    <img src="https://www.etestware.com/wp-content/uploads/2020/08/shutterstock_515285995-1200x580.jpg" alt=""
-        width="800" height="500">
+    <br>
+    <h4>
+        <p>This is a website made for a project, and it's purpose is educational and testing.</p>
+        <p>The website is written in HTML, using Flask and CSS/Bootstrap for styling/function.</p>
+        <p>The app creates a database, which stores the user information provided in the sign up/log in page. The
+            password is also hashed.</p>
+        <br>
+        <p>The 2 APIs integrated with the webiste are <a href="https://openweathermap.org/">OpenWeatherMap</a> and <a
+                href="https://openai.com/blog/chatgpt">OpenAI's ChatGPT</a>.</p>
+        <p>The API-keys have to be provided by the user, and they are private and stored in a secure place.</p>
+        <br>
+        <p>The logo used on this website is AI-generated using <a href="https://www.midjourney.com/home/">Midjourney</a>
+        </p>
+    </h4>
+    <br>
+    <img src="https://www.etestware.com/wp-content/uploads/2020/08/shutterstock_515285995-1200x580.jpg"
+        alt="testing-logo" width="650" height="auto">
 </div>
 {% endblock content %}
