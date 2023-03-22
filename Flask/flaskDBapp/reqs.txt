@@ -1,6 +1,0 @@
-flask
-openai
-requests
-python-dotenv
-sqlalchemy 
-flask-sqlalchemy
