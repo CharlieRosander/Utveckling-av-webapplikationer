@@ -1,0 +1,19 @@
+/* NAVBAR */
+
+#navdiv {
+    padding: 0%;
+}
+
+/* #navbar {
+    display: flex;
+    justify-content: space-evenly;
+} */
+
+.dropdownMenuButton1 {
+    --bs-btn-color: #fff;
+    --bs-btn-bg: #001528;
+    --bs-btn-border-color: #ff0054;
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: #5c636a;
+    --bs-btn-hover-border-color: #565e64;
+}
