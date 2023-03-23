@@ -14,37 +14,59 @@
 </head>
 
 <body>
-    <nav id="navbar" class="navbar navbar-dark bg-primary">
-        <div class="container-fluid">
-            <span>
-                <button class="btn btn-outline-light me-2" type="button"
-                    onclick="location.href='http://127.0.0.1:5000/home'">Home</button>
-                <button class="btn btn-outline-light me-2" type="button"
-                    onclick="location.href='http://127.0.0.1:5000/home'">Home</button>
-                <button class="btn btn-outline-light me-2" type="button"
-                    onclick="location.href='http://127.0.0.1:5000/home'">Home</button>
-            </span>
-            <span class="navbar-brand">
-                <h1>Pizzeria</h1>
-            </span>
-            {% if "admin" in session %}
-            <span class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1"
-                    data-bs-toggle="dropdown" aria-expanded="false">
-                    Dropdown
-                </button>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                    <li><a class="dropdown-item" href="#">Action</a></li>
-                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                </ul>
-            </span>
-            {% endif %}
-        </div>
-    </nav>
+    <header id="header">
+        <nav id="navbar" class="navbar navbar-dark bg-primary">
+            <div id="navcontainer" class="container-fluid">
+                <span class="container-fluid">
+                    <small id="logged-in-div" style="justify-content: end; display: flex;">Logged in as:
+                        {{session["user"]}}</small>
+                </span>
+                <span id="website-name" class="navbar-brand">
+                    <h1>Pizzeria</h1>
+                </span>
+
+                <span>
+                    <button class="btn btn-outline-light me-2" type="button"
+                        onclick="location.href='http://127.0.0.1:5000/index'">Home</button>
+                    <button class="btn btn-outline-light me-2" type="button"
+                        onclick="location.href='http://127.0.0.1:5000/menu'">Menu</button>
+                    <button class="btn btn-outline-light me-2" type="button"
+                        onclick="location.href='http://127.0.0.1:5000/order'">Order</button>
+                </span>
+
+                {% if not "admin" in session["user"] %}
+                <span class="dropdown">
+                    <button class="btn btn-outline-light me-2 dropdown-toggle" type="button" id="dropdownMenuButton1"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        Information
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                        <li><a class="dropdown-item" href="about">About Pizzeria</a></li>
+                        <li><a class="dropdown-item" href="contact">Contact</a></li>
+                        <li><a class="dropdown-item" href="login">Log in</a></li>
+                        <li><a class="dropdown-item" href="logout">Log out</a></li>
+                    </ul>
+                </span>
+                {% elif "admin" in session["user"] %}
+                <span class="dropdown">
+                    <button class="btn btn-outline-light me-2 dropdown-toggle" type="button" id="dropdownMenuButton1"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        Admin
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                        <li><a class="dropdown-item" href="manage_orders">Manage Orders</a></li>
+                        <li><a class="dropdown-item" href="manage_users">Manage Users</a></li>
+                        <li><a class="dropdown-item" href="logout">Log out</a></li>
+                    </ul>
+                </span>
+                {% endif %}
+
+            </div>
+        </nav>
+    </header>
 
 
-    <div id="bodypage" class="container-fluid">
+    <div id="bodypage" class="justify-content-center">
         {% block content %}
         {% with messages = get_flashed_messages() %}
         {% if messages %}
@@ -58,10 +80,9 @@
         {% endblock %}
 
     </div>
+
     <div id="creator-text" class="container-fluid">
-        <footer>
-            <em><small>App/website written/made by Charlie Rosander AKA Kaliber</small></em>
-        </footer>
+        <footer><em><small>App/website written/made by Charlie Rosander AKA Kaliber</small></em></footer>
     </div>
 
     <!-- Bootstrap 5 bundle -->

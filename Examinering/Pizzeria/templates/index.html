@@ -1,7 +1,13 @@
 {% extends "layout.html" %}
 {% block content %}
 <div class="container-fluid">
-    <title>Home</title>
     <h1>Home page</h1>
+    {% if "admin" in session %}
+    <p>Welcome, admin!</p>
+    {% elif "user" in session %}
+    <p>Welcome, {{ session["user"] }}!</p>
+    {% else %}
+    <p>Welcome, guest!</p>
+    {% endif %}
 </div>
 {% endblock %}

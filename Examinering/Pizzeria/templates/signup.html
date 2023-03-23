@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<form id="loginform" action="{{ url_for('add_user') }}" method="post">
+    <div class="text-center">
+        <h4>
+            <p>Sign up here or continue as guest</p>
+        </h4>
+    </div>
+    <!-- Username input -->
+    <div id="loginformcontainer" class="form-outline mb-4">
+        <label class="form-label">Username:</label>
+        <input type="username" id="username" name="username" class="form-control" placeholder="Enter a username" />
+    </div>
+
+    <!-- Password input -->
+    <div class="form-outline mb-4">
+        <label class="form-label">Password:</label>
+        <input type="password" id="password" name="password" class="form-control" placeholder="Enter a password" />
+    </div>
+
+    <!-- Submit button -->
+    <button type="submit" class="btn btn-primary btn-block mb-4">Log in</button>
+
+    <!-- Register buttons -->
+    <div class="text-center">
+        <p>Already a member? <a href="login">Log in</a></p>
+    </div>
+</form>
+{% endblock content %}
