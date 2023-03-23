@@ -3,19 +3,17 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_sqlalchemy import SQLAlchemy
 import pandas as pd
 
+
 app = Flask(__name__)
 app.secret_key = 'secretkey'
 
 
-    #### READ CSV FILE ####
-def read_csv():
-    csv = ("./Docs/pizzeria.csv")
-    df = pd.read_csv(csv)
-    return print(df)
+    #### CSV ####
+def read_csv_file():
+    df = pd.read_csv("./Docs/menu.csv")
+    return df
 
-with app.app_context():
-    read_csv()
-    #### /READ CSV FILE ####
+    #### /CSV ####
 
 
 #### DATABASE ####
@@ -79,13 +77,16 @@ def login():
         admin = Admin.query.filter_by(username=username).first()
         user = User.query.filter_by(username=username).first()
         
+        if "guest" in request.form:
+            session["user"] = "guest"
+            return redirect(url_for('index'))
 
-        if admin:
+        elif admin:
             if admin.password == password:
                 session["user"] = admin.username
                 return redirect(url_for('index'))
 
-        if user:
+        elif user:
             if check_password_hash(user.password, password):
                 session["user"] = user.username
                 return redirect(url_for('index'))
@@ -109,6 +110,18 @@ def logout():
 @app.route('/index')
 def index():
     return render_template('index.html')
+
+@app.route('/menu')
+def menu():
+    df = read_csv_file()
+    column_names = list(df.columns.values)  # Convert column names to a list
+    row_data = df.values.tolist()
+    return render_template("menu.html", column_names=column_names, row_data=row_data)
+
+
+@app.route('/order')
+def order():
+    return render_template('order.html')
 
 @app.route('/about')
 def about():

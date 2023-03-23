@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+{% block content %}
+<h1 id="menutitle" class="my-3">Food Menu</h1>
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    {% for row in row_data %}
+    <div class="col">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">{{ row[column_names.index('Name')] }}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">{{ row[column_names.index('Size')] }}</h6>
+                <p class="card-text">Toppings: {{ row[column_names.index('Toppings')] }}</p>
+            </div>
+            <div class="card-footer d-flex align-items-center justify-content-between">
+                <div class="price-text">
+                    <p class="card-text mb-0">Price: ${{ row[column_names.index('Price')] }}</p>
+                </div>
+                <button class="btn btn-outline-primary">Put in cart</button>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -1,5 +1,4 @@
 /* NAVBAR/HEADER */
-
 #header {
     display: grid;
     align-items: start;
@@ -49,7 +48,6 @@
 }
 
 /* BODY */
-
 html,
 body {
     height: 100%;
@@ -78,8 +76,12 @@ body {
     clear: both;
 }
 
-/* LOGIN */
+#footertext {
+    display: grid;
+    align-items: end;
+}
 
+/* LOGIN */
 #loginform {
     margin-top: 10%;
 }
@@ -87,4 +89,17 @@ body {
 #loggedin-card {
 
     margin-top: 20%;
+}
+
+/* MENU */
+.card {
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-bottom: 30px;
+}
+
+#menutitle {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
 }
