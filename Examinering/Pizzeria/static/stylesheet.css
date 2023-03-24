@@ -1,3 +1,5 @@
+
+
 /* NAVBAR/HEADER */
 #header {
     display: grid;
@@ -48,28 +50,26 @@
 }
 
 /* BODY */
-html,
+
 body {
     height: 100%;
     width: 100%;
 }
 
 #bodypage {
-    display: grid;
+    display: flex;
     justify-content: center;
     min-height: 100%;
-    margin-bottom: -50px;
-    /* Height of footer */
+    margin-bottom: 20px;
     padding-bottom: 50px;
-    /* Height of footer */
 }
 
-#creator-text {
+#div-creator-text {
     justify-content: start;
     display: flex;
     height: 50px;
     /* Height of footer */
-    background-color: #f5f5f5;
+    background-color: #d73333;
     position: relative;
     margin-top: -50px;
     /* Negative height of footer */
@@ -78,7 +78,7 @@ body {
 
 #footertext {
     display: grid;
-    align-items: end;
+    align-items: center;
 }
 
 /* LOGIN */
@@ -92,14 +92,94 @@ body {
 }
 
 /* MENU */
-.card {
-    margin-left: 20px;
-    margin-right: 20px;
-    margin-bottom: 30px;
+body {
+    background-color: #ffe0b3;
+    font-family: Arial, sans-serif;
 }
 
 #menutitle {
-    display: flex;
+    color: #d35400;
+    font-weight: bold;
+    margin-bottom: 40px;
+}
+
+.pizza-card {
+
+    margin-bottom: 30px;
+    background-color: #f8dfd0;
+    border-radius: 15px;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
+}
+
+.pizza-card .card-title {
+    color: #d35400;
+    font-weight: bold;
+}
+
+.pizza-card .card-footer {
+    background-color: #f1c40f;
+}
+
+.btn-primary {
+    border-color: #d35400;
+    color: white;
+    background-color: #d35400;
+    ;
+}
+
+.btn-primary:hover {
+    background-color: white;
+    color: #d35400;
+    border-color: #d35400;
+}
+
+.btn-outline-primary {
+    border-color: #d35400;
+    color: #d35400;
+}
+
+.btn-outline-primary:hover {
+    background-color: #d35400;
+    color: #ffffff;
+    border-color: #d35400;
+}
+
+.btn-outline-success {
+    border-color: #27ae60;
+    color: #27ae60;
+}
+
+.btn-outline-success:hover {
+    background-color: #27ae60;
+    color: #ffffff;
+}
+
+.btn-outline-danger {
+    border-color: #c0392b;
+    color: #c0392b;
+}
+
+.btn-outline-danger:hover {
+    background-color: #c0392b;
+    color: #ffffff;
+}
+
+
+/* FLASH MESSAGE */
+/* Success message */
+.alert-success {
     justify-content: center;
+    color: #3c763d;
+    background-color: #dff0d8;
+    border-color: #d6e9c6;
+    padding: 15px;
     margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+
+ul.flashes {
+    list-style: none;
+    padding: 0;
+    margin: 0;
 }

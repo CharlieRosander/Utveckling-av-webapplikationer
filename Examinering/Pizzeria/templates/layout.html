@@ -15,21 +15,20 @@
 
 <body>
     <header id="header">
-        <nav id="navbar" class="navbar navbar-dark bg-primary">
+        <nav id="navbar" class="navbar navbar-dark bg-black">
             <div id="navcontainer" class="container-fluid">
                 <span class="container-fluid">
-                    <!-- if user in session -->
-
                     <small id="logged-in-div" style="justify-content: end; display: flex;">
+                        {% if session.get("user") %}
                         Logged in as:
-                        {% if "user" in session %}
+                        {% if session.get("user") %}
                         {{ session["user"] }}
-                        {% elif "admin" in session %}
-                        {{ session["user"] }}
+                        {% endif %}
                         {% else %}
-                        Guest
+                        Not logged in
                         {% endif %}
                     </small>
+
                 </span>
                 <span id="website-name" class="navbar-brand">
                     <h1>Pizzeria</h1>
@@ -74,23 +73,31 @@
         </nav>
     </header>
 
-
-    <div id="bodypage" class="justify-content-center">
-        {% block content %}
+    <span>
         {% with messages = get_flashed_messages() %}
         {% if messages %}
-        <ul class=flashes>
+        <ul class="flashes">
             {% for message in messages %}
-            <li>{{ message }}</li>
+            <li class="alert alert-success"> {{ message }} </li>
             {% endfor %}
         </ul>
         {% endif %}
         {% endwith %}
+    </span>
+    <script>
+        setTimeout(function () {
+            var alert = document.querySelector(".alert");
+            if (alert) {
+                alert.remove();
+            }
+        }, 3000);
+    </script>
+    <div id="bodypage" class="d-grid justify-content-center">
+        {% block content %}
         {% endblock %}
-
     </div>
 
-    <div id="creator-text" class="container-fluid">
+    <div id="div-creator-text" class="container-fluid bottom-100">
         <footer id="footertext"><em><small>App/website written/made by Charlie Rosander AKA Kaliber</small></em>
         </footer>
     </div>
