@@ -1,0 +1,11 @@
+Name,Price,Size,Toppings
+Margherita,10,Medium,"Tomato sauce, mozzarella"
+Pepperoni,11,Medium,"Tomato sauce, mozzarella, pepperoni"
+Hawaii,11,Medium,"Tomato sauce, mozzarella, ham, pineapple"
+Vegetarian,11,Medium,"Tomato sauce, mozzarella, mushrooms, olives, peppers"
+Seafood,12,Medium,"Tomato sauce, mozzarella, shrimp, crab, tuna"
+Carbonara,12,Medium,"Tomato sauce, mozzarella, bacon, egg"
+Quattro Stagioni,12,Large,"Tomato sauce, mozzarella, ham, mushrooms, artichokes, olives"
+Quattro Formaggi,12,Large,"Tomato sauce, mozzarella, gorgonzola, parmesan, emmental"
+Napoli,13,Large,"Tomato sauce, mozzarella, anchovies, capers"
+Calzone,13,Large,"Tomato sauce, mozzarella, ham, mushrooms, peppers"

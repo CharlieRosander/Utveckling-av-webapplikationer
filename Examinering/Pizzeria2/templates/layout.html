@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- CSS/Bootstrap link -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/stylesheet.css">
+
+</head>
+
+<body>
+    <header id="header">
+        <nav id="navbar" class="navbar navbar-dark bg-primary">
+            <div id="navcontainer" class="container-fluid">
+                <span class="container-fluid">
+                    <!-- if user in session -->
+
+                    <small id="logged-in-div" style="justify-content: end; display: flex;">
+                        Logged in as:
+                        {% if "user" in session %}
+                        {{ session["user"] }}
+                        {% elif "admin" in session %}
+                        {{ session["user"] }}
+                        {% else %}
+                        Guest
+                        {% endif %}
+                    </small>
+                </span>
+                <span id="website-name" class="navbar-brand">
+                    <h1>Pizzeria</h1>
+                </span>
+
+                <span>
+                    <button class="btn btn-outline-light me-2" type="button"
+                        onclick="location.href='http://127.0.0.1:5000/index'">Home</button>
+                    <button class="btn btn-outline-light me-2" type="button"
+                        onclick="location.href='http://127.0.0.1:5000/menu'">Menu</button>
+                    <button class="btn btn-outline-light me-2" type="button"
+                        onclick="location.href='http://127.0.0.1:5000/order'">Order</button>
+                </span>
+
+                {% if not "admin" in session["user"] %}
+                <span class="dropdown">
+                    <button class="btn btn-outline-light me-2 dropdown-toggle" type="button" id="dropdownMenuButton1"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        Information
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                        <li><a class="dropdown-item" href="about">About Pizzeria</a></li>
+                        <li><a class="dropdown-item" href="contact">Contact</a></li>
+                        <li><a class="dropdown-item" href="login">Log in</a></li>
+                        <li><a class="dropdown-item" href="logout">Log out</a></li>
+                    </ul>
+                </span>
+                {% elif "admin" in session["user"] %}
+                <span class="dropdown">
+                    <button class="btn btn-outline-light me-2 dropdown-toggle" type="button" id="dropdownMenuButton1"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        Admin
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                        <li><a class="dropdown-item" href="manage_orders">Manage Orders</a></li>
+                        <li><a class="dropdown-item" href="manage_users">Manage Users</a></li>
+                        <li><a class="dropdown-item" href="logout">Log out</a></li>
+                    </ul>
+                </span>
+                {% endif %}
+            </div>
+        </nav>
+    </header>
+
+
+    <div id="bodypage" class="justify-content-center">
+        {% block content %}
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul class=flashes>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
+        {% endblock %}
+
+    </div>
+
+    <div id="creator-text" class="container-fluid">
+        <footer id="footertext"><em><small>App/website written/made by Charlie Rosander AKA Kaliber</small></em>
+        </footer>
+    </div>
+
+    <!-- Bootstrap 5 bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
