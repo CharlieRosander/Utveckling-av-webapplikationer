@@ -31,29 +31,39 @@
 
                 </span>
                 <span id="website-name" class="navbar-brand">
-                    <h1>Pizzeria</h1>
+                    <h1>The Perfect Slice</h1>
                 </span>
 
-                <span>
+                <span id="nav-buttons" class="d-block" style="margin-right: 6%;">
                     <button class="btn btn-outline-light me-2" type="button"
-                        onclick="location.href='http://127.0.0.1:5000/index'">Home</button>
+                        onclick="location.href='{{ url_for('index') }}'">Home</button>
                     <button class="btn btn-outline-light me-2" type="button"
-                        onclick="location.href='http://127.0.0.1:5000/menu'">Menu</button>
+                        onclick="location.href='{{ url_for('menu') }}'">Menu</button>
                     <button class="btn btn-outline-light me-2" type="button"
-                        onclick="location.href='http://127.0.0.1:5000/order'">Order</button>
+                        onclick="location.href='{{ url_for('about') }}'">About</button>
+                    <button class="btn btn-outline-light me-2" type="button"
+                        onclick="location.href='{{ url_for('contact') }}'">Contact</button>
+                    <button class="btn btn-outline-light me-2" type="button"
+                        onclick="location.href='{{ url_for('cart') }}'">Show cart</button>
                 </span>
+
 
                 {% if not "admin" in session["user"] %}
                 <span class="dropdown">
                     <button class="btn btn-outline-light me-2 dropdown-toggle" type="button" id="dropdownMenuButton1"
                         data-bs-toggle="dropdown" aria-expanded="false">
-                        Information
+                        Profile
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                        <li><a class="dropdown-item" href="about">About Pizzeria</a></li>
-                        <li><a class="dropdown-item" href="contact">Contact</a></li>
-                        <li><a class="dropdown-item" href="login">Log in</a></li>
+                        <li><a class="dropdown-item" href="cart">View cart</a></li>
+                        {% if "guest" in session.get("user", "") %}
+                        <li><a class="dropdown-item" href="signup">Register</a></li>
                         <li><a class="dropdown-item" href="logout">Log out</a></li>
+                        {% else %}
+                        <li><a class="dropdown-item" href="profile">Edit profile</a></li>
+                        <li><a class="dropdown-item" href="logout">Log out</a></li>
+                        {% endif %}
+
                     </ul>
                 </span>
                 {% elif "admin" in session["user"] %}

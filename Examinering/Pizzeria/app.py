@@ -2,7 +2,7 @@ from flask import Flask, render_template, redirect, url_for, session, flash, req
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_sqlalchemy import SQLAlchemy
 import pandas as pd
-
+import json
 
 app = Flask(__name__)
 app.secret_key = 'secretkey'
@@ -19,21 +19,21 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
-
+# Model admin table #
 class Admin(db.Model):
     __tablename__ = 'admin'
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     password = db.Column(db.String(80), unique=True, nullable=False)
 
-
+# Model table for users #
 class User(db.Model):
     __tablename__ = 'user'
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     password = db.Column(db.String(80), unique=True, nullable=False)
 
-
+# Create admin user func #
 def create_admin():
     admin = Admin.query.filter_by(username='admin').first()
     if admin is None:
@@ -41,11 +41,11 @@ def create_admin():
         db.session.add(admin)
         db.session.commit()
 
-
+# Create tables func #
 def create_tables():
     db.create_all()
 
-
+# Call create_tables and admin funcs #
 with app.app_context():
     create_tables()
     create_admin()
@@ -58,8 +58,6 @@ def sign_up():
     return render_template('signup.html')
 
 # Add user to database #
-
-
 @app.route('/add_user', methods=['POST'])
 def add_user():
     username = request.form['username']
@@ -119,9 +117,9 @@ def logout():
 def index():
     if not session.get('user'):
         session['user'] = 'guest'
+    if not session.get('cart'):
+        session['cart'] = json.dumps([])
     return render_template('index.html')
-
-
 
 @app.route('/menu')
 def menu():
@@ -130,25 +128,87 @@ def menu():
     row_data = df.values.tolist()
     return render_template("menu.html", column_names=column_names, row_data=row_data)
 
-
 @app.route('/order')
 def order():
     pass
     # return render_template('order.html')
 
-
 @app.route('/about')
 def about():
     return render_template('about.html')
-
 
 @app.route('/contact')
 def contact():
     return render_template('contact.html')
 
+@app.route('/profile')
+def profile():
+    return render_template('profile.html')
+
+@app.route('/cart')
+def cart():
+    if not session.get('cart'):
+        session['cart'] = json.dumps([])
+    cart = json.loads(session['cart'])
+
+    return render_template('cart.html', cart=cart)
+
+@app.route('/add_to_cart/<int:pizza_id>', methods=['POST'])
+def add_to_cart(pizza_id):
+    df = read_csv_file()
+    pizza = df.loc[df['id'] == pizza_id].to_dict(orient='records')[0]
+    pizza['Quantity'] = int(request.form.get('quantity', 1))
+    cart = json.loads(session['cart'])
+
+    # Check if the pizza is already in the cart
+    for item in cart:
+        if item['id'] == pizza['id']:
+            item['Quantity'] += pizza['Quantity']
+            break
+    else:
+        cart.append(pizza)
+
+    session['cart'] = json.dumps(cart)
+    return redirect(url_for('menu'))
+
+@app.route('/remove_from_cart/<int:pizza_id>', methods=['POST'])
+def remove_from_cart(pizza_id):
+    cart = json.loads(session['cart'])
+
+    for index, item in enumerate(cart):
+        if item['id'] == pizza_id:
+            cart.pop(index)
+            break
+
+    session['cart'] = json.dumps(cart)
+    return redirect(url_for('cart'))
+
+@app.route('/clear_cart', methods=['POST'])
+def clear_cart():
+    session['cart'] = json.dumps([])
+    return redirect(url_for('cart'))
+
+@app.route('/checkout', methods=['POST'])
+def checkout():
+    cart = json.loads(session['cart'])
+    return render_template('checkout.html', cart=cart)
+
+@app.route('/add_pizza', methods=['GET', 'POST'])
+def add_pizza():
+    if request.method == 'POST':
+        df = read_csv_file()
+        pizza_id = df["id"].max() + 1
+        pizza_df = pd.DataFrame(columns=['id', 'name', 'price', 'size', 'toppings'])
+        pizza_df = pizza_df.append({'id': pizza_id, 'name': request.form['name'], 'price': request.form['price'],
+                                     'size': request.form['size'], 'toppings': request.form['toppings']}, ignore_index=True)
+        
+        pizza_df.to_csv('Docs/menu.csv', mode='a', header=False, index=False)
+
+        return redirect(url_for('menu'))
+    return render_template('add_pizza.html')
+
 #### /PAGE ROUTES ####
 
-
+# Run app #
 if __name__ == '__main__':
-
     app.run(debug=True)
