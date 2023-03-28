@@ -9,8 +9,6 @@
     </div>
     {% endif %}
     <div class="row row-cols-1 row-cols-md-3 g-4">
-        {% set ns = namespace(item_in_cart=False) %}
-        {% set ns.item_in_cart = False %}
         {% for row in row_data %}
         <div class="col">
             <div class="card h-100 pizza-card">
@@ -30,19 +28,15 @@
                             <input type="submit" value="Add to Cart" class="btn btn-primary rounded">
                         </div>
                     </form>
-
-                    {% for cart_item in cart %}
-                    {% if cart_item['id'] == row[column_names.index('id')] %}
-                    {% set ns.item_in_cart = True %}
-                    {% endif %}
-                    {% endfor %}
-                    {% if ns.item_in_cart %}
+                    {% if cart %}
+                    {% if row[column_names.index('id')] in cart|map(attribute='id') %}
                     <form action="{{ url_for('remove_from_cart', pizza_id=row[column_names.index('id')]) }}"
                         method="post" class="mb-2">
                         <div class="input-group">
                             <input type="submit" value="Remove from cart" class="btn btn-danger mt-2 rounded">
                         </div>
                     </form>
+                    {% endif %}
                     {% endif %}
                     {% if "admin" in session["user"] %}
                     <div class="d-flex justify-content-between">

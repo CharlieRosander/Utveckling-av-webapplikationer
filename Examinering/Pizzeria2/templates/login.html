@@ -8,22 +8,24 @@
             <p>Welcome, please log in, sign up or continue as guest!</p>
         </h4>
     </div>
+
     <!-- Username input -->
     <div id="loginformcontainer" class="form-outline mb-4">
         <label class="form-label">Username:</label>
-        <input type="username" id="username" name="username" class="form-control" placeholder="Enter a username" />
+        <input type="username" id="username" name="username" class="form-control" placeholder="Enter a username" required/>
     </div>
 
     <!-- Password input -->
     <div class="form-outline mb-4">
         <label class="form-label">Password:</label>
-        <input type="password" id="password" name="password" class="form-control" placeholder="Enter a password" />
+        <input type="password" id="password" name="password" class="form-control" placeholder="Enter a password" required/>
     </div>
 
     <!-- Submit button -->
     <button type="submit" class="btn btn-primary btn-block mb-4">Log in</button>
 
-    <button id="guestlogin" type="submit" class="btn btn-primary btn-block mb-4 float-end"
+    <!-- Hidden input for 'Continue as guest' button -->
+    <button name="guestlogin" type="button" class="btn btn-primary btn-block mb-4 float-end"
         onclick="location.href='{{ url_for('index') }}'">Continue as guest</button>
 
     <!-- Register redirect -->

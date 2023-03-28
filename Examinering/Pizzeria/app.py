@@ -123,15 +123,15 @@ def index():
 
 @app.route('/menu')
 def menu():
+    if not session.get('cart'):
+        session['cart'] = json.dumps([])
+
+    cart = json.loads(session['cart'])
+
     df = read_csv_file()
     column_names = list(df.columns.values)  # Convert column names to a list
     row_data = df.values.tolist()
-    return render_template("menu.html", column_names=column_names, row_data=row_data)
-
-@app.route('/order')
-def order():
-    pass
-    # return render_template('order.html')
+    return render_template("menu.html", column_names=column_names, row_data=row_data, cart=cart)
 
 @app.route('/about')
 def about():
@@ -153,6 +153,7 @@ def cart():
 
     return render_template('cart.html', cart=cart)
 
+# Add pizza to cart #
 @app.route('/add_to_cart/<int:pizza_id>', methods=['POST'])
 def add_to_cart(pizza_id):
     df = read_csv_file()
@@ -168,9 +169,11 @@ def add_to_cart(pizza_id):
     else:
         cart.append(pizza)
 
+    flash(f"{pizza['Quantity']}x {pizza['Name']} added to cart")
     session['cart'] = json.dumps(cart)
     return redirect(url_for('menu'))
 
+# Remove pizza from cart #
 @app.route('/remove_from_cart/<int:pizza_id>', methods=['POST'])
 def remove_from_cart(pizza_id):
     cart = json.loads(session['cart'])
@@ -181,6 +184,8 @@ def remove_from_cart(pizza_id):
             break
 
     session['cart'] = json.dumps(cart)
+    flash("Item removed from cart")
+
     return redirect(url_for('cart'))
 
 @app.route('/clear_cart', methods=['POST'])
@@ -206,7 +211,6 @@ def add_pizza():
 
         return redirect(url_for('menu'))
     return render_template('add_pizza.html')
-
 #### /PAGE ROUTES ####
 
 # Run app #
