@@ -15,34 +15,80 @@
 
 <body>
     <header id="header">
-        <nav id="navbar" class="navbar navbar-dark bg-black">
-            <span id="website-name" class="navbar-brand float-start">
-                <h1>The Perfect Slice</h1>
-                <div class="d-flex">
-                    <ul class="navbar-nav mx-2">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark justify-content-between">
+            <div class="d-grid mx-3">
+                <a class="navbar-brand" href="{{ url_for('index') }}">
+                    <h3>The Perfect Slice</h3>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="{{ url_for('index') }}">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="{{ url_for('menu') }}">Menu</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="{{ url_for('cart') }}">Show
+                                cart</a>
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="{{ url_for('about') }}">About</a>
                         </li>
-                    </ul>
-                    <ul class="navbar-nav">
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="{{ url_for('contact') }}">Contact</a>
                         </li>
                     </ul>
                 </div>
-            </span>
-
-            <div id="nav-buttons" class="d-flex justify-content-center" style="margin-right: 6%;">
-                <button class="btn btn-outline-light me-2" type="button"
-                    onclick="location.href='{{ url_for('index') }}'">Home</button>
-                <button class="btn btn-outline-light me-2" type="button"
-                    onclick="location.href='{{ url_for('menu') }}'">Menu</button>
-                <button class="btn btn-outline-light me-2" type="button"
-                    onclick="location.href='{{ url_for('cart') }}'">Show cart</button>
+            </div>
+            <div class="d-grid mx-3">
+                <small id="logged-in-div">
+                    {% if session.get("user") %}
+                    Logged in as:
+                    {% if session.get("user") %}
+                    {{ session["user"] }}
+                    {% endif %}
+                    {% else %}
+                    Not logged in
+                    {% endif %}
+                </small>
+                {% if not "admin" in session["user"] %}
+                <span class="dropdown">
+                    <button class="btn btn-outline-light me-2 dropdown-toggle" type="button" id="dropdownMenuButton1"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        Profile
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                        <li><a class="dropdown-item" href="cart">View cart</a></li>
+                        {% if "guest" in session.get("user", "") %}
+                        <li><a class="dropdown-item" href="signup">Register</a></li>
+                        <li><a class="dropdown-item" href="logout">Log out</a></li>
+                        {% else %}
+                        <li><a class="dropdown-item" href="profile">Edit profile</a></li>
+                        <li><a class="dropdown-item" href="logout">Log out</a></li>
+                        {% endif %}
+                    </ul>
+                </span>
+                {% elif "admin" in session["user"] %}
+                <span class="dropdown">
+                    <button class="btn btn-outline-light me-2 dropdown-toggle" type="button" id="dropdownMenuButton1"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        Admin
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                        <li><a class="dropdown-item" href="manage_orders">Manage Orders</a></li>
+                        <li><a class="dropdown-item" href="manage_users">Manage Users</a></li>
+                        <li><a class="dropdown-item" href="logout">Log out</a></li>
+                    </ul>
+                </span>
+                {% endif %}
             </div>
         </nav>
     </header>
-
     <span>
         {% with messages = get_flashed_messages() %}
         {% if messages %}

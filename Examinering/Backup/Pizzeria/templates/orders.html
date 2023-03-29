@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+{% block content %}
+{% if "admin" in session["user"] %}
+<div class="d-grid">
+    <div class="row">
+        <div class="col-12">
+            <h1>Manage Orders</h1>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Order ID</th>
+                        <th scope="col">User</th>
+                        <th scope="col">Order Date</th>
+                        <th scope="col">Order Status</th>
+                        <th scope="col">Order Total</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in orders %}
+                    <tr>
+                        <th scope="row">{{ order.order_id }}</th>
+                        <td>{{ order.user }}</td>
+                        <td>{{ order.order_date }}</td>
+                        <td>{{ order.order_status }}</td>
+                        <td>{{ order.order_total }}</td>
+                        <td>
+                            <a href="order/{{ order.order_id }}" class="btn btn-primary">View</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

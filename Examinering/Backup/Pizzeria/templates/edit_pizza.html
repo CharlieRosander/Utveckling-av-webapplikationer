@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<h1>Edit pizza</h1>
+<form action="{{ url_for('edit_pizza', pizza_id=pizza['id']) }}" method="post">
+    <div class="mb-3">
+        <label for="name" class="form-label">Name</label>
+        <input type="text" class="form-control" id="name" name="name" value="{{ pizza['name'] }}">
+    </div>
+    <div class="mb-3">
+        <label for="price" class="form-label">Price</label>
+        <input type="number" class="form-control" id="price" name="price" value="{{ pizza['price'] }}">
+    </div>
+    <div class="mb-3">
+        <label for="size" class="form-label">Size</label>
+        <input type="text" class="form-control" id="size" name="size" value="{{ pizza['size'] }}">
+    </div>
+    <div class="mb-3">
+        <label for="toppings" class="form-label">Toppings</label>
+        <input type="text" class="form-control" id="toppings" name="toppings" value="{{ pizza['toppings'] }}">
+    </div>
+    <button type="submit" class="btn btn-primary">Save changes</button>
+</form>
+{% endblock %}

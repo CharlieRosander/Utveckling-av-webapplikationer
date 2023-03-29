@@ -1,17 +1,20 @@
 from flask import Flask, render_template, redirect, url_for, session, flash, request
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_sqlalchemy import SQLAlchemy
+from dotenv import load_dotenv
 import pandas as pd
 import json
+import os
 
 app = Flask(__name__)
 app.secret_key = 'secretkey'
+load_dotenv()
 
 #### CSV ####
 def read_csv_file():
     df = pd.read_csv("./Docs/menu.csv")
     return df
-    #### /CSV ####
+#### /CSV ####
 
 
 #### DATABASE ####
@@ -35,11 +38,16 @@ class User(db.Model):
 
 # Create admin user func #
 def create_admin():
-    admin = Admin.query.filter_by(username='admin').first()
+    admin_username = os.getenv("ADMIN_USERNAME")
+    admin_password = os.getenv("ADMIN_PASSWORD")
+    hashed_password = generate_password_hash(admin_password)
+
+    admin = Admin.query.filter_by(username=admin_username).first()
     if admin is None:
-        admin = Admin(username='admin', password='123')
+        admin = Admin(username=admin_username, password=hashed_password)
         db.session.add(admin)
         db.session.commit()
+
 
 # Create tables func #
 def create_tables():
@@ -60,12 +68,18 @@ def sign_up():
 # Add user to database #
 @app.route('/add_user', methods=['POST'])
 def add_user():
-    username = request.form['username']
-    password = request.form['password']
-    hashed_password = generate_password_hash(password)
-    new_user = User(username=username, password=hashed_password)
-    db.session.add(new_user)
-    db.session.commit()
+    user = User.query.filter_by(username=request.form['username']).first()
+    if user is None:
+        username = request.form['username']
+        password = request.form['password']
+        hashed_password = generate_password_hash(password)
+        new_user = User(username=username, password=hashed_password)
+        db.session.add(new_user)
+        db.session.commit()
+    
+    else:
+        flash(f"User: {user.username} already exists.", 'danger')
+        return redirect(url_for('sign_up'))
     
     flash(f"User: {new_user.username} created successfully.", 'success')
     return redirect(url_for('login'))
@@ -82,11 +96,11 @@ def login():
         admin = Admin.query.filter_by(username=username).first()
         user = User.query.filter_by(username=username).first()
 
-        if admin:
-            if admin.password == password:
-                session['user'] = admin.username
-                flash(f"Successfully logged in as: {session['user']}.", 'success')
-                return redirect(url_for('index'))
+        
+        if admin and check_password_hash(admin.password, password):
+            session['user'] = admin.username
+            flash(f"Successfully logged in as: {session['user']}.", 'success')
+            return redirect(url_for('index'))
 
         if user:
             if check_password_hash(user.password, password):
@@ -100,7 +114,6 @@ def login():
             error = 'Username does not exist.'
 
     return render_template('login.html', error=error)
-
 #### /LOGIN ####
 
 #### LOGOUT ####
@@ -108,6 +121,7 @@ def login():
 def logout():
     session.pop('user', None)
     session.pop("guest", None)
+    session.pop("cart", None)
     flash('Logged out successfully.')
     return redirect(url_for('login'))
 #### /LOGOUT ####
@@ -145,6 +159,7 @@ def contact():
 def profile():
     return render_template('profile.html')
 
+#### CART ####
 @app.route('/cart')
 def cart():
     if not session.get('cart'):
@@ -197,7 +212,10 @@ def clear_cart():
 def checkout():
     cart = json.loads(session['cart'])
     return render_template('checkout.html', cart=cart)
+#### /CART ####
 
+#### MANAGE PIZZAS ####
+# Add new pizza #
 @app.route('/add_pizza', methods=['GET', 'POST'])
 def add_pizza():
     if request.method == 'POST':
@@ -211,6 +229,61 @@ def add_pizza():
 
         return redirect(url_for('menu'))
     return render_template('add_pizza.html')
+
+# Edit existing pizza #
+@app.route('/edit_pizza/<int:pizza_id>', methods=['GET', 'POST'])
+def edit_pizza(pizza_id):
+    df = read_csv_file()
+    pizza = df.loc[df['id'] == pizza_id].to_dict(orient='records')[0]
+
+    if request.method == 'POST':
+        updated_name = request.form['name'] or pizza['Name']
+        updated_price = request.form['price'] or pizza['Price']
+        updated_size = request.form['size'] or pizza['Size']
+        updated_toppings = request.form['toppings'] or pizza['Toppings']
+
+        update_pizza_by_id(pizza_id, updated_name, updated_price, updated_size, updated_toppings)
+        flash(f"Pizza with ID {pizza_id} has been updated.")
+        return redirect(url_for('menu'))
+
+    return render_template('edit_pizza.html', pizza=pizza)
+
+
+# Update existing pizza #
+def update_pizza_by_id(pizza_id, name, price, size, toppings):
+    df = pd.read_csv('./Docs/menu.csv')
+
+    # Find the row with the given ID and update its values
+    df.loc[df['id'] == pizza_id, 'Name'] = name
+    df.loc[df['id'] == pizza_id, 'Price'] = price
+    df.loc[df['id'] == pizza_id, 'Size'] = size
+    df.loc[df['id'] == pizza_id, 'Toppings'] = toppings
+
+    # Write the updated DataFrame to the CSV file
+    df.to_csv('./Docs/menu.csv', index=False)
+
+# Delete existing pizza #
+@app.route('/delete_pizza/<int:pizza_id>', methods=['POST'])
+def delete_pizza(pizza_id):
+    df = pd.read_csv('./Docs/menu.csv')
+
+    # Find the row with the given ID and delete it
+    df = df[df['id'] != pizza_id]
+
+    # Write the updated DataFrame to the CSV file
+    df.to_csv('./Docs/menu.csv', index=False)
+
+    flash(f"Pizza with ID {pizza_id} has been deleted.")
+    return redirect(url_for('menu'))
+#### /MANAGE PIZZAS ####
+
+# Orders #
+@app.route('/orders')
+def orders():
+    session_data = session["cart"]
+    print(type(session_data))
+    return render_template('orders.html', session_data=session_data)
+
 #### /PAGE ROUTES ####
 
 # Run app #

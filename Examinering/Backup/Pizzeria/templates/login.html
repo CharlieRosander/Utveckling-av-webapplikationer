@@ -2,6 +2,8 @@
 {% block content %}
 
 {% if "admin" not in session and "user" not in session %}
+
+
 <form id="loginform" action="{{ url_for('login') }}" method="post">
     <div class="text-center">
         <h4>

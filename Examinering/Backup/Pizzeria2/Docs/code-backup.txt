@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- CSS/Bootstrap link -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/stylesheet.css">
+
+</head>
+
+<body>
+    <header id="header">
+        <nav id="navbar" class="navbar navbar-dark bg-black">
+            <div id="navcontainer" class="container-fluid">
+                <span class="container-fluid">
+                    <small id="logged-in-div" style="justify-content: end; display: flex;">
+                        {% if session.get("user") %}
+                        Logged in as:
+                        {% if session.get("user") %}
+                        {{ session["user"] }}
+                        {% endif %}
+                        {% else %}
+                        Not logged in
+                        {% endif %}
+                    </small>
+
+                </span>
+                <span id="website-name" class="navbar-brand">
+                    <h1>The Perfect Slice</h1>
+                    <div class="d-flex">
+                        <ul class="navbar-nav mx-2">
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="{{ url_for('about') }}">About</a>
+                            </li>
+                        </ul>
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page"
+                                    href="{{ url_for('contact') }}">Contact</a>
+                            </li>
+                        </ul>
+                    </div>
+                </span>
+                <div id="nav-buttons" class="d-flex" style="margin-right: 6%;">
+                    <button class="btn btn-outline-light me-2" type="button"
+                        onclick="location.href='{{ url_for('index') }}'">Home</button>
+                    <button class="btn btn-outline-light me-2" type="button"
+                        onclick="location.href='{{ url_for('menu') }}'">Menu</button>
+                    <button class="btn btn-outline-light me-2" type="button"
+                        onclick="location.href='{{ url_for('cart') }}'">Show cart</button>
+                </div>
+
+                {% if not "admin" in session["user"] %}
+                <span class="dropdown">
+                    <button class="btn btn-outline-light me-2 dropdown-toggle" type="button" id="dropdownMenuButton1"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        Profile
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                        <li><a class="dropdown-item" href="cart">View cart</a></li>
+                        {% if "guest" in session.get("user", "") %}
+                        <li><a class="dropdown-item" href="signup">Register</a></li>
+                        <li><a class="dropdown-item" href="logout">Log out</a></li>
+                        {% else %}
+                        <li><a class="dropdown-item" href="profile">Edit profile</a></li>
+                        <li><a class="dropdown-item" href="logout">Log out</a></li>
+                        {% endif %}
+
+                    </ul>
+                </span>
+                {% elif "admin" in session["user"] %}
+                <span class="dropdown">
+                    <button class="btn btn-outline-light me-2 dropdown-toggle" type="button" id="dropdownMenuButton1"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        Admin
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                        <li><a class="dropdown-item" href="manage_orders">Manage Orders</a></li>
+                        <li><a class="dropdown-item" href="manage_users">Manage Users</a></li>
+                        <li><a class="dropdown-item" href="logout">Log out</a></li>
+                    </ul>
+                </span>
+                {% endif %}
+            </div>
+        </nav>
+    </header>
+
+    <span>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul class="flashes" style="position: absolute;">
+            {% for message in messages %}
+            <li class="alert alert-success"> {{ message }} </li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
+    </span>
+    <script>
+        setTimeout(function () {
+            var alert = document.querySelector(".alert");
+            if (alert) {
+                alert.remove();
+            }
+        }, 3000);
+    </script>
+    <div id="bodypage" class="d-grid justify-content-center">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <div id="div-creator-text" class="container-fluid bottom-100">
+        <footer id="footertext"><em><small>App/website written/made by Charlie Rosander AKA Kaliber</small></em>
+        </footer>
+    </div>
+
+    <!-- Bootstrap 5 bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

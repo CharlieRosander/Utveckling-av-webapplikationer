@@ -1,7 +1,13 @@
 {% extends "layout.html" %}
 {% block content %}
+<title>Menu</title>
 <h1 id="menutitle" class="my-3 text-center">Pizza Menu</h1>
 <div class="container">
+    {% if "admin" in session["user"] %}
+    <div class="d-flex justify-content-start mb-3">
+        <a href="{{ url_for('add_pizza') }}" class="btn btn-primary">Add pizza</a>
+    </div>
+    {% endif %}
     <div class="row row-cols-1 row-cols-md-3 g-4">
         {% for row in row_data %}
         <div class="col">
@@ -11,14 +17,33 @@
                     <h6 class="card-subtitle mb-2 text-muted">{{ row[column_names.index('Size')] }}</h6>
                     <p class="card-text">Toppings: {{ row[column_names.index('Toppings')] }}</p>
                 </div>
-                <div class="card-footer d-flex align-items-center justify-content-between">
-                    <div class="price-text">
+                <div class="card-footer">
+                    <div class="price-text mb-2">
                         <p class="card-text mb-0">Price: ${{ row[column_names.index('Price')] }}</p>
                     </div>
-                    <button class="btn btn-outline-primary float-end">Put in cart</button>
+                    <form action="{{ url_for('add_to_cart', pizza_id=row[column_names.index('id')]) }}" method="post"
+                        class="mb-2">
+                        <div class="input-group">
+                            <input type="number" name="quantity" value="1" min="1" class="form-control w-auto">
+                            <input type="submit" value="Add to Cart" class="btn btn-primary rounded">
+                        </div>
+                    </form>
+                    {% if cart %}
+                    {% if row[column_names.index('id')] in cart|map(attribute='id') %}
+                    <form action="{{ url_for('remove_from_cart', pizza_id=row[column_names.index('id')]) }}"
+                        method="post" class="mb-2">
+                        <div class="input-group">
+                            <input type="submit" value="Remove from cart" class="btn btn-danger mt-2 rounded">
+                        </div>
+                    </form>
+                    {% endif %}
+                    {% endif %}
                     {% if "admin" in session["user"] %}
-                    <button class="btn btn-outline-success">Edit</button>
-                    <button class="btn btn-outline-danger">Delete</button>
+                    <div class="d-flex justify-content-between">
+                        <a href="{{ url_for('edit_pizza', pizza_id=row[column_names.index('id')]) }}"
+                            class="btn btn-outline-success">Edit</a>
+                        <button class="btn btn-outline-danger">Delete</button>
+                    </div>
                     {% endif %}
                 </div>
             </div>

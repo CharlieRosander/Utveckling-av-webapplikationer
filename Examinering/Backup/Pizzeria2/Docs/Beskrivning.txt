@@ -1,8 +1,0 @@
-I kursens projekt så ska vi fortsätta utforska lite vad vi kan göra med Flask. 
-
-Vi ska i projektet bygga en hemsida för en pizzeria. På hemsidan ska vi kunna placera och visa ordrar, 
-visa pizzorna, och ha funktioner för att logga in och administrera hemsidan (alltså kunna hoppa in bakom kulisserna och lägga till / ta bort pizzor)
-
-Hosting är inget krav, men om ni vill så kan ni hosta på github pages, på AWS, eller valfri annan tjänst.  
-
-Ett annat smidigt sätt är att lägga upp på dockerhub, så kan jag bara köra den direkt därifrån.

@@ -1,16 +1,11 @@
-FROM python3
-
-# Install dependencies
-RUN pip3 install --upgrade pip
-RUN pip3 install --no-cache-dir -r requirements.txt
+FROM python
 
 EXPOSE 5000
 
-# Copy the current directory contents into the container at /app
-COPY . /app
+COPY requirements.txt .
+RUN python -m pip install -r requirements.txt
 
-# Set the working directory to /app
 WORKDIR /app
+COPY . .
 
-# Run app.py when the container launches
-CMD ["python3", "app.py", "--host=0.0.0.0"]
+CMD [ "python", "-m" , "flask", "run", "--host=0.0.0.0"]
