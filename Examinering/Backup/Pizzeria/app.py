@@ -1,17 +1,22 @@
-from flask import Flask, render_template, redirect, url_for, session, flash, request
+from flask import Flask, render_template, redirect, url_for, session, flash, request, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_sqlalchemy import SQLAlchemy
+from dotenv import load_dotenv
+from datetime import datetime
 import pandas as pd
 import json
+import os
+
 
 app = Flask(__name__)
 app.secret_key = 'secretkey'
+load_dotenv()
 
 #### CSV ####
 def read_csv_file():
     df = pd.read_csv("./Docs/menu.csv")
     return df
-    #### /CSV ####
+#### /CSV ####
 
 
 #### DATABASE ####
@@ -19,27 +24,49 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
-# Model admin table #
+# DB admin table #
 class Admin(db.Model):
     __tablename__ = 'admin'
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     password = db.Column(db.String(80), unique=True, nullable=False)
 
-# Model table for users #
+# DB table for users #
 class User(db.Model):
     __tablename__ = 'user'
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     password = db.Column(db.String(80), unique=True, nullable=False)
 
+# DB table for orders #
+class Orders(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(80), nullable=False)
+    date = db.Column(db.String(80), nullable=False)
+    done = db.Column(db.Boolean, default=False, nullable=False)
+
+
+# Sub table for orders #
+class OrderItems(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    order_id = db.Column(db.Integer, db.ForeignKey('orders.id'), nullable=False)
+    pizza = db.Column(db.String(80), nullable=False)
+    price = db.Column(db.Float, nullable=False)
+    quantity = db.Column(db.Integer, nullable=False)
+    total = db.Column(db.Float, nullable=False)
+
 # Create admin user func #
 def create_admin():
-    admin = Admin.query.filter_by(username='admin').first()
+    admin_username = os.getenv("ADMIN_USERNAME")
+    admin_password = os.getenv("ADMIN_PASSWORD")
+    hashed_password = generate_password_hash(admin_password)
+
+    admin = Admin.query.filter_by(username=admin_username).first()
     if admin is None:
-        admin = Admin(username='admin', password='123')
+        admin = Admin(username=admin_username, password=hashed_password)
         db.session.add(admin)
         db.session.commit()
+
 
 # Create tables func #
 def create_tables():
@@ -60,12 +87,18 @@ def sign_up():
 # Add user to database #
 @app.route('/add_user', methods=['POST'])
 def add_user():
-    username = request.form['username']
-    password = request.form['password']
-    hashed_password = generate_password_hash(password)
-    new_user = User(username=username, password=hashed_password)
-    db.session.add(new_user)
-    db.session.commit()
+    user = User.query.filter_by(username=request.form['username']).first()
+    if user is None:
+        username = request.form['username']
+        password = request.form['password']
+        hashed_password = generate_password_hash(password)
+        new_user = User(username=username, password=hashed_password)
+        db.session.add(new_user)
+        db.session.commit()
+    
+    else:
+        flash(f"User: {user.username} already exists.", 'danger')
+        return redirect(url_for('sign_up'))
     
     flash(f"User: {new_user.username} created successfully.", 'success')
     return redirect(url_for('login'))
@@ -82,11 +115,11 @@ def login():
         admin = Admin.query.filter_by(username=username).first()
         user = User.query.filter_by(username=username).first()
 
-        if admin:
-            if admin.password == password:
-                session['user'] = admin.username
-                flash(f"Successfully logged in as: {session['user']}.", 'success')
-                return redirect(url_for('index'))
+        
+        if admin and check_password_hash(admin.password, password):
+            session['user'] = admin.username
+            flash(f"Successfully logged in as: {session['user']}.", 'success')
+            return redirect(url_for('index'))
 
         if user:
             if check_password_hash(user.password, password):
@@ -100,7 +133,6 @@ def login():
             error = 'Username does not exist.'
 
     return render_template('login.html', error=error)
-
 #### /LOGIN ####
 
 #### LOGOUT ####
@@ -108,6 +140,7 @@ def login():
 def logout():
     session.pop('user', None)
     session.pop("guest", None)
+    session.pop("cart", None)
     flash('Logged out successfully.')
     return redirect(url_for('login'))
 #### /LOGOUT ####
@@ -145,6 +178,7 @@ def contact():
 def profile():
     return render_template('profile.html')
 
+#### CART ####
 @app.route('/cart')
 def cart():
     if not session.get('cart'):
@@ -153,7 +187,6 @@ def cart():
 
     return render_template('cart.html', cart=cart)
 
-# Add pizza to cart #
 @app.route('/add_to_cart/<int:pizza_id>', methods=['POST'])
 def add_to_cart(pizza_id):
     df = read_csv_file()
@@ -188,16 +221,39 @@ def remove_from_cart(pizza_id):
 
     return redirect(url_for('cart'))
 
+# Clear cart #
 @app.route('/clear_cart', methods=['POST'])
 def clear_cart():
     session['cart'] = json.dumps([])
+    flash("Cart cleared")
     return redirect(url_for('cart'))
 
+# Checkout #
 @app.route('/checkout', methods=['POST'])
 def checkout():
-    cart = json.loads(session['cart'])
-    return render_template('checkout.html', cart=cart)
+    session_data = json.loads(session.get('cart'))
+    total_price = sum([d['Price'] * d['Quantity'] for d in session_data])
+    date = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
+    order = Orders(username=session['user'], date=date)
+    db.session.add(order)
+    db.session.flush()  # This is needed to get the generated order id
+
+    order_df = pd.DataFrame(session_data)
+    for _, row in order_df.iterrows():
+        order_item = OrderItems(order_id=order.id, pizza=row['Name'], price=row['Price'],
+                                quantity=row['Quantity'], total=total_price)
+        db.session.add(order_item)
+
+    db.session.commit()
+
+    session.pop('cart', None)
+    flash('Your order has been placed. Thank you for shopping with us!', 'success')
+    return redirect(url_for('menu'))
+#### /CART ####
+
+#### MANAGE PIZZAS ####
+# Add new pizza #
 @app.route('/add_pizza', methods=['GET', 'POST'])
 def add_pizza():
     if request.method == 'POST':
@@ -212,27 +268,97 @@ def add_pizza():
         return redirect(url_for('menu'))
     return render_template('add_pizza.html')
 
+# Edit existing pizza #
 @app.route('/edit_pizza/<int:pizza_id>', methods=['GET', 'POST'])
 def edit_pizza(pizza_id):
     df = read_csv_file()
     pizza = df.loc[df['id'] == pizza_id].to_dict(orient='records')[0]
+
     if request.method == 'POST':
-        pizza['name'] = request.form['name']
-        pizza['price'] = request.form['price']
-        pizza['size'] = request.form['size']
-        pizza['toppings'] = request.form['toppings']
+        updated_name = request.form['name'] or pizza['Name']
+        updated_price = request.form['price'] or pizza['Price']
+        updated_size = request.form['size'] or pizza['Size']
+        updated_toppings = request.form['toppings'] or pizza['Toppings']
 
-        # Update the pizza row in the CSV file
-        for i, row in df.iterrows():
-            if row['id'] == pizza_id:
-                df.loc[i] = pizza
-                break
-
-        # Write the updated CSV file back to disk
-        df.to_csv('./Docs/menu.csv', index=False)
-
+        update_pizza_by_id(pizza_id, updated_name, updated_price, updated_size, updated_toppings)
+        flash(f"Pizza with ID {pizza_id} has been updated.")
         return redirect(url_for('menu'))
+
     return render_template('edit_pizza.html', pizza=pizza)
+
+
+# Update existing pizza #
+def update_pizza_by_id(pizza_id, name, price, size, toppings):
+    df = pd.read_csv('./Docs/menu.csv')
+
+    # Find the row with the given ID and update its values
+    df.loc[df['id'] == pizza_id, 'Name'] = name
+    df.loc[df['id'] == pizza_id, 'Price'] = price
+    df.loc[df['id'] == pizza_id, 'Size'] = size
+    df.loc[df['id'] == pizza_id, 'Toppings'] = toppings
+
+    # Write the updated DataFrame to the CSV file
+    df.to_csv('./Docs/menu.csv', index=False)
+
+# Delete existing pizza #
+@app.route('/delete_pizza/<int:pizza_id>', methods=['POST'])
+def delete_pizza(pizza_id):
+    df = pd.read_csv('./Docs/menu.csv')
+
+    # Find the row with the given ID and delete it
+    df = df[df['id'] != pizza_id]
+
+    # Write the updated DataFrame to the CSV file
+    df.to_csv('./Docs/menu.csv', index=False)
+
+    flash(f"Pizza with ID {pizza_id} has been deleted.")
+    return redirect(url_for('menu'))
+#### /MANAGE PIZZAS ####
+
+#### ORDERS ####
+@app.route('/orders')
+def orders():
+
+    if session.get('user') == 'admin':
+        orders = Orders.query.all()
+        return render_template('orders.html', orders=orders)
+    else:
+        return redirect(url_for('login'))
+
+@app.route('/get_order_items/<int:order_id>')
+def get_order_items(order_id):
+    items = OrderItems.query.filter_by(order_id=order_id).all()
+    items_data = []
+    for item in items:
+        item_data = {
+            'pizza': item.pizza,
+            'price': item.price,
+            'quantity': item.quantity,
+            'total': item.total
+        }
+        items_data.append(item_data)
+    return jsonify(items_data)
+
+
+
+# Delete an order
+@app.route('/delete_order/<int:order_id>', methods=['POST'])
+def delete_order(order_id):
+    order = Orders.query.get(order_id)
+    db.session.delete(order)
+    db.session.commit()
+    flash(f"Order with ID {order_id} has been deleted.")
+    return redirect(url_for('orders'))
+
+# Mark an order as done
+@app.route('/mark_order_as_done/<int:order_id>', methods=['POST'])
+def mark_order_as_done(order_id):
+    order = Orders.query.get(order_id)
+    order.done = True
+    db.session.commit()
+    flash(f"Order with ID {order_id} has been marked as done.")
+    return redirect(url_for('orders'))
+#### /ORDERS ####
 
 #### /PAGE ROUTES ####
 

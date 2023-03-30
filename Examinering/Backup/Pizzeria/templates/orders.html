@@ -1,38 +1,61 @@
-{% extends "layout.html" %}
+{% extends "index.html" %}
 {% block content %}
-{% if "admin" in session["user"] %}
-<div class="d-grid">
-    <div class="row">
-        <div class="col-12">
-            <h1>Manage Orders</h1>
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th scope="col">Order ID</th>
-                        <th scope="col">User</th>
-                        <th scope="col">Order Date</th>
-                        <th scope="col">Order Status</th>
-                        <th scope="col">Order Total</th>
-                        <th scope="col">Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for order in orders %}
-                    <tr>
-                        <th scope="row">{{ order.order_id }}</th>
-                        <td>{{ order.user }}</td>
-                        <td>{{ order.order_date }}</td>
-                        <td>{{ order.order_status }}</td>
-                        <td>{{ order.order_total }}</td>
-                        <td>
-                            <a href="order/{{ order.order_id }}" class="btn btn-primary">View</a>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
-{% endif %}
+<h1>Orders</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Username</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for order in orders %}
+        <tr>
+            <td>{{ order.id }}</td>
+            <td>{{ order.username }}</td>
+            <td>{{ order.date }}</td>
+            <td>{{ order.status }}</td>
+            <td>
+                <form action="{{ url_for('delete_order', order_id=order.id) }}" method="post">
+                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                </form>
+                {% if order.status == 'Pending' %}
+                <form action="{{ url_for('mark_order_as_done', order_id=order.id) }}" method="post">
+                    <button type="submit" class="btn btn-success btn-sm">Mark as Done</button>
+                </form>
+                {% endif %}
+                <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="collapse"
+                    data-bs-target="#items-{{ order.id }}">Show Items</button>
+
+                <div class="collapse" id="items-{{ order.id }}">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Pizza</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in order.items %}
+                            <tr>
+                                <td>{{ item.pizza }}</td>
+                                <td>{{ item.price }}</td>
+                                <td>{{ item.quantity }}</td>
+                                <td>{{ item.total }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
 {% endblock %}

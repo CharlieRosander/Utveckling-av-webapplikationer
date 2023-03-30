@@ -5,7 +5,7 @@
 <div class="container">
     {% if "admin" in session["user"] %}
     <div class="d-flex justify-content-start mb-3">
-        <a href="{{ url_for('add_pizza') }}" class="btn btn-primary">Add pizza</a>
+        <a href="{{ url_for('add_pizza') }}" class="btn btn-primary">Add a new pizza to the menu</a>
     </div>
     {% endif %}
     <div class="row row-cols-1 row-cols-md-3 g-4">

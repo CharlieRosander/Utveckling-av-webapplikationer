@@ -1,32 +1,4 @@
 /* NAVBAR/HEADER */
-#header {
-    display: grid;
-    align-items: start;
-}
-
-#navdiv {
-    padding: 0%;
-}
-
-#navcontainer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.dropdownMenuButton1 {
-    --bs-btn-color: #fff;
-    --bs-btn-bg: #001528;
-    --bs-btn-border-color: #ff0054;
-    --bs-btn-hover-color: #fff;
-    --bs-btn-hover-bg: #5c636a;
-    --bs-btn-hover-border-color: #565e64;
-}
-
-#website-name {
-    display: flex;
-    justify-content: start;
-}
 
 #dropdownMenuButton1 {
     width: 180px;
@@ -47,8 +19,13 @@
     color: #dadada;
 }
 
-/* BODY */
+/* DATETIME */
+#timeanddate {
+    color: white;
+    
+}
 
+/* BODY */
 body {
     height: 100%;
     width: 100%;
@@ -58,25 +35,33 @@ body {
     display: flex;
     justify-content: center;
     min-height: 100%;
-    margin-bottom: 20px;
-    padding-bottom: 50px;
-}
-
-#div-creator-text {
-    justify-content: start;
-    display: flex;
-    height: 50px;
-    /* Height of footer */
-    background-color: #d73333;
-    position: relative;
-    margin-top: -50px;
-    /* Negative height of footer */
-    clear: both;
+    padding-bottom: 100px;
 }
 
 #footertext {
     display: grid;
     align-items: center;
+    justify-content: center;
+    display: flex;
+    height: 100px;
+    background-color: #d73333;
+}
+
+/* ABOUT/CONTACT */
+#aboutcard {
+    background-color: sandybrown;
+    color: black;
+}
+
+#contactcard {
+    background-color: sandybrown;
+    color: black;
+}
+
+/* CART */
+#cartcard {
+    background-color: sandybrown;
+    color: black;
 }
 
 /* LOGIN */
@@ -180,4 +165,26 @@ ul.flashes {
     list-style: none;
     padding: 0;
     margin: 0;
+}
+
+/* ADD PIZZA/EDIT PIZZA */
+
+#addpizza {
+    background-color: #d73333;
+    color: #fff;
+    width: 600px;
+    height: 580px;
+}
+
+#editpizza {
+    background-color: #d73333;
+    color: #fff;
+    width: 600px;
+    height: 580px;
+}
+
+/* MANAGE ORDERS */
+#ordertable {
+    margin-top: 20px;
+    background-color: sandybrown;
 }
