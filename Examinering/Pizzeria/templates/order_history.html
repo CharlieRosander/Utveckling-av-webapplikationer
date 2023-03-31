@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+{% block content %}
+    <h1>Your Orders</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Order ID</th>
+                <th scope="col">Date</th>
+                <th scope="col">Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+                <tr>
+                    <td>{{ order.id }}</td>
+                    <td>{{ order.date }}</td>
+                    <td>{{ "Completed" if order.completed else "Pending" }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
