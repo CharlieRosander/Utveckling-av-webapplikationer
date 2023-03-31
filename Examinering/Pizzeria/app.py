@@ -17,7 +17,6 @@ def read_csv_file():
     return df
 #### /CSV ####
 
-
 #### DATABASE ####
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -84,7 +83,6 @@ def create_admin():
         db.session.add(admin)
         db.session.commit()
 
-
 # Create tables func #
 def create_tables():
     db.create_all()
@@ -94,7 +92,6 @@ with app.app_context():
     create_tables()
     create_admin()
 #### /DATABASE ####
-
 
 #### REGISTER ####
 @app.route("/signup")
@@ -312,7 +309,6 @@ def edit_pizza(pizza_id):
 
     return render_template('edit_pizza.html', pizza=pizza)
 
-
 # Update existing pizza #
 def update_pizza_by_id(pizza_id, name, price, size, toppings):
     df = pd.read_csv('./Docs/menu.csv')
@@ -365,17 +361,6 @@ def get_order_items(order_id):
         items_data.append(item_data)
     return jsonify(items_data)
 
-# @app.route('/user_orders')
-# def user_orders():
-#     if session.get('user') != 'guest':
-#         user_orders = CompletedOrders.query.filter_by(username=session['user']).all()
-#         return render_template('order_history.html', orders=user_orders)
-#     else:
-#         flash("Please log in to view your orders.")
-#         return redirect(url_for('login'))
-
-
-
 # Delete an order
 @app.route('/delete_order/<int:order_id>', methods=['POST'])
 def delete_order(order_id):
@@ -384,7 +369,6 @@ def delete_order(order_id):
     db.session.commit()
     flash(f"Order with ID {order_id} has been deleted.")
     return redirect(url_for('orders'))
-
 
 # Mark an order as done
 @app.route('/mark_order_as_done/<int:order_id>', methods=['POST'])
@@ -407,7 +391,6 @@ def mark_order_as_done(order_id):
 
     flash(f"Order with ID {order_id} has been marked as done.")
     return redirect(url_for('orders'))
-
 #### /ORDERS ####
 
 #### /PAGE ROUTES ####
