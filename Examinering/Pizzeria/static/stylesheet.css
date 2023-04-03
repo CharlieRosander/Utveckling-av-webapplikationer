@@ -183,17 +183,6 @@ ul.flashes {
     height: 580px;
 }
 
-/* MANAGE ORDERS */
-/* #ordertable {
-    margin-top: 20px;
-    background-color: sandybrown;
-}
-
-.orders-table {
-    width: 80%;
-    margin: 0 auto;
-} */
-
 html,
 body,
 .intro {
@@ -206,16 +195,6 @@ table th {
     white-space: nowrap;
     overflow: hidden;
 }
-
-/* thead th,
-tbody th {
-    color: #fff;
-}
-
-tbody td {
-    font-weight: 500;
-    color: white;
-} */
 
 th {
     text-align: center;

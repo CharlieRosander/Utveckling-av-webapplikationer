@@ -1,6 +1,7 @@
 from flask import Flask, render_template, redirect, url_for, session, flash, request, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import exc
 from dotenv import load_dotenv
 from datetime import datetime
 import pandas as pd
@@ -35,9 +36,11 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     password = db.Column(db.String(80), unique=True, nullable=False)
-    email = db.Column(db.String(80), unique=True, nullable=False)
-    address = db.Column(db.String(80), nullable=False)
-    phone = db.Column(db.String(80), nullable=False)
+    email = db.Column(db.String(80), unique=True, nullable=True)
+    address = db.Column(db.String(80), nullable=True)
+    phone = db.Column(db.String(80), nullable=True)
+    date = db.Column(db.String(80), nullable=False)
+
 # DB table for orders #
 class Orders(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -101,24 +104,43 @@ def sign_up():
 # Add user to database #
 @app.route('/add_user', methods=['POST'])
 def add_user():
-    user = User.query.filter_by(username=request.form['username']).first()
-    if user is None:
-        username = request.form['username']
-        password = request.form['password']
-        email = request.form['email']
-        address = request.form['address']
-        phone = request.form['phone']
-        hashed_password = generate_password_hash(password)
-        new_user = User(username=username, password=hashed_password, email=email, address=address, phone=phone)
-        db.session.add(new_user)
-        db.session.commit()
+    try:
+        user = User.query.filter_by(username=request.form['username']).first()
+        if user is None:
+            username = request.form['username']
+            password = request.form['password']
+            email = request.form['email']
+            address = request.form['address']
+            phone = request.form['phone']
+            date = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            hashed_password = generate_password_hash(password)
+            new_user = User(username=username, password=hashed_password, date=date)
+
+            # Add email, address, and phone if they have a value
+            if email:
+                new_user.email = email
+            if address:
+                new_user.address = address
+            if phone:
+                new_user.phone = phone
+
+            db.session.add(new_user)
+            db.session.commit()
+
+        else:
+            flash(f"User: {user.username} already exists.", 'danger')
+            return redirect(url_for('sign_up'))
+
+        flash(f"User: {new_user.username} created successfully.", 'success')
+        return redirect(url_for('login'))
     
-    else:
-        flash(f"User: {user.username} already exists.", 'danger')
+    except Exception as e:
+        db.session.rollback()
+        flash(f"An error occurred while adding the user: {str(e)}", 'danger')
         return redirect(url_for('sign_up'))
-    
-    flash(f"User: {new_user.username} created successfully.", 'success')
-    return redirect(url_for('login'))
+
+
+
 #### /REGISTER ####
 
 #### LOGIN ####
@@ -197,9 +219,15 @@ def profile():
         flash("Please log in to view your profile.")
         return redirect(url_for('login'))
 
-    current_user = User.query.filter_by(username=session['user']).first()
-    orders = CompletedOrders.query.filter_by(username=current_user.username).all()
-    return render_template('profile.html', current_user=current_user, orders=orders)
+    if 'admin' in session['user']:
+        current_user = Admin.query.filter_by(username=session['user']).first()
+    
+    else:
+        current_user = User.query.filter_by(username=session['user']).first()
+
+    complete_orders = CompletedOrders.query.filter_by(username=current_user.username).all()
+   
+    return render_template('profile.html', current_user=current_user, complete_orders=complete_orders)
 
 #### CART ####
 @app.route('/cart')
@@ -255,6 +283,11 @@ def clear_cart():
 @app.route('/checkout', methods=['POST'])
 def checkout():
     session_data = json.loads(session.get('cart'))
+
+    if not session_data:
+        flash('Your cart is empty. Please add items before checking out.', 'warning')
+        return redirect(url_for('menu'))
+    
     total_price = sum([d['Price'] * d['Quantity'] for d in session_data])
     date = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
@@ -392,6 +425,26 @@ def mark_order_as_done(order_id):
     flash(f"Order with ID {order_id} has been marked as done.")
     return redirect(url_for('orders'))
 #### /ORDERS ####
+
+#### MANAGE USERS ####
+# Get all users #
+@app.route('/users')
+def users():
+    if session.get('user') == 'admin':
+        all_users = User.query.all()
+        return render_template('users.html', all_users=all_users)
+    else:
+        flash("You are not authorized to view this page.")
+        return redirect(url_for('login'))
+
+# Remove a user #
+@app.route('/delete_user/<int:user_id>', methods=['POST'])
+def delete_user(user_id):
+    user = User.query.get(user_id)
+    db.session.delete(user)
+    db.session.commit()
+    flash(f"User with ID {user_id} has been deleted.")
+    return redirect(url_for('users'))
 
 #### /PAGE ROUTES ####
 
