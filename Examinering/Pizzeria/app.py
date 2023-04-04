@@ -138,9 +138,6 @@ def add_user():
         db.session.rollback()
         flash(f"An error occurred while adding the user: {str(e)}", 'danger')
         return redirect(url_for('sign_up'))
-
-
-
 #### /REGISTER ####
 
 #### LOGIN ####
@@ -445,7 +442,6 @@ def delete_user(user_id):
     db.session.commit()
     flash(f"User with ID {user_id} has been deleted.")
     return redirect(url_for('users'))
-
 #### /PAGE ROUTES ####
 
 # Run app #

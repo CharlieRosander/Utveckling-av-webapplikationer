@@ -49,19 +49,25 @@ body {
 
 /* ABOUT/CONTACT */
 #aboutcard {
-    background-color: sandybrown;
-    color: black;
+    background-color: #d73333;
+    color: #fff;
 }
 
 #contactcard {
-    background-color: sandybrown;
-    color: black;
+    background-color: #d73333;
+    color: #fff;
 }
+
+
 
 /* CART */
 #cartcard {
-    background-color: sandybrown;
-    color: black;
+    background-color: black;
+    color: white;
+}
+
+#carttable {
+    color: #fff;
 }
 
 /* LOGIN */
@@ -168,7 +174,6 @@ ul.flashes {
 }
 
 /* ADD PIZZA/EDIT PIZZA */
-
 #addpizza {
     background-color: #d73333;
     color: #fff;
