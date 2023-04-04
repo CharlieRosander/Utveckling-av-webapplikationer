@@ -35,9 +35,8 @@
                                                 {% if not order.completed %}
                                                 <form action="{{ url_for('mark_order_as_done', order_id=order.id) }}"
                                                     method="post">
-                                                    <button type="submit" class="btn btn-success btn-sm mx-2 my-2">Mark
-                                                        as
-                                                        Done
+                                                    <button type="submit" class="btn btn-success btn-sm mx-2 my-2">
+                                                        Mark as Done
                                                     </button>
                                                 </form>
                                                 {% endif %}

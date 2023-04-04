@@ -1,5 +1,5 @@
-Flask==2.2.3
-flask_sqlalchemy==3.0.3
-pandas==1.5.2
-python-dotenv==1.0.0
-Werkzeug==2.2.3
+Flask
+flask_sqlalchemy
+pandas
+python-dotenv
+Werkzeug

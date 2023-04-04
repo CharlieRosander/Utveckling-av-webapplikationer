@@ -1,7 +1,7 @@
 from flask import Flask, render_template, redirect, url_for, session, flash, request, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import exc
+from sqlalchemy import exc, func
 from dotenv import load_dotenv
 from datetime import datetime
 import pandas as pd
@@ -63,6 +63,7 @@ class CompletedOrders(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), nullable=False)
     date = db.Column(db.String(80), nullable=False)
+    total_price = db.Column(db.Float, nullable=False)
     items = db.relationship('CompletedOrderItems', cascade="all, delete", backref='completed_order')
 
 # Sub table for completed orders
@@ -222,9 +223,55 @@ def profile():
     else:
         current_user = User.query.filter_by(username=session['user']).first()
 
+    if current_user is None:
+        flash("User not found. Please log in again.")
+        return redirect(url_for('login'))
+
     complete_orders = CompletedOrders.query.filter_by(username=current_user.username).all()
    
     return render_template('profile.html', current_user=current_user, complete_orders=complete_orders)
+
+@app.route('/edit_contact_info', methods=['GET', 'POST'])
+def edit_contact_info():
+    if 'user' not in session or session['user'] == 'guest':
+        # Redirect to login page if the user is not logged in
+        return redirect(url_for('login'))
+
+    current_user = User.query.filter_by(username=session['user']).first()
+
+    if request.method == 'POST':
+        username = request.form['username']
+        email = request.form['email']
+        phone = request.form['phone']
+        address = request.form['address']
+
+        # Update the user's contact information in the database only if the field is not empty
+        if username:
+            old_username = current_user.username
+            current_user.username = username
+
+            # Update the username in the CompletedOrders table
+            completed_orders = CompletedOrders.query.filter_by(username=old_username).all()
+            for order in completed_orders:
+                order.username = username
+
+        if email:
+            current_user.email = email
+        if phone:
+            current_user.phone = phone
+        if address:
+            current_user.address = address
+
+        db.session.commit()
+
+        # Update the session variable
+        session['user'] = current_user.username
+
+        flash('Your contact information has been updated.', 'success')
+        return redirect(url_for('profile'))
+
+    return render_template('edit_profile.html', current_user=current_user)
+
 
 #### CART ####
 @app.route('/cart')
@@ -404,9 +451,10 @@ def delete_order(order_id):
 @app.route('/mark_order_as_done/<int:order_id>', methods=['POST'])
 def mark_order_as_done(order_id):
     order = Orders.query.get(order_id)
-    
+    total_price = db.select(func.sum(OrderItems.total)).where(OrderItems.order_id == order_id).first()[0]
+
     # Save the order details in the CompletedOrders and CompletedOrderItems tables
-    completed_order = CompletedOrders(username=order.username, date=order.date)
+    completed_order = CompletedOrders(username=order.username, date=order.date, total_price=total_price)
     db.session.add(completed_order)
     db.session.flush()
 
