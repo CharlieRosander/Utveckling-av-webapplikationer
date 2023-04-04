@@ -451,7 +451,7 @@ def delete_order(order_id):
 @app.route('/mark_order_as_done/<int:order_id>', methods=['POST'])
 def mark_order_as_done(order_id):
     order = Orders.query.get(order_id)
-    total_price = db.select(func.sum(OrderItems.total)).where(OrderItems.order_id == order_id).first()[0]
+    total_price = db.select(OrderItems.total).where(OrderItems.order_id == order_id)
 
     # Save the order details in the CompletedOrders and CompletedOrderItems tables
     completed_order = CompletedOrders(username=order.username, date=order.date, total_price=total_price)
