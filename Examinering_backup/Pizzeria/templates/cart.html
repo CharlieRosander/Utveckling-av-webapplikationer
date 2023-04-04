@@ -1,0 +1,61 @@
+{% extends "layout.html" %}
+{% block title %}Shopping cart{% endblock %}
+{% block content %}
+<title>Shopping cart</title>
+{% set ns = namespace(total_price=0) %}
+<div class="container" id="custom-container">
+    <h1 class="d-flex justify-content-center my-5">Pizzeria Shopping Cart</h1>
+    <div class="row">
+        <div class="col-lg mx-auto">
+            <div class="card mb-3" id="cartcard">
+                <div class="card-header">Your Cart</div>
+                <div class="card-body">
+                    <table id="carttable" class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Pizza</th>
+                                <th scope="col">Size</th>
+                                <th scope="col">Price</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Total</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in cart %}
+                            {% set item_total = item['Price'] * item['Quantity'] %}
+                            {% set ns.total_price = ns.total_price + item_total %}
+                            <tr>
+                                <td>{{ item['Name'] }}</td>
+                                <td>{{ item['Size'] }}</td>
+                                <td>${{ item['Price'] }}</td>
+                                <td>{{ item['Quantity'] }}</td>
+                                <td>${{ item_total }}</td>
+                                <td>
+                                    <form action="{{ url_for('remove_from_cart', pizza_id=item['id']) }}" method="post">
+                                        <button class="btn btn-danger btn-sm" type="submit">Remove</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="1" class="text-right font-weight-bold">Total Price:</td>
+                                <td colspan="2">${{ ns.total_price }}</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                    <div class="container-fluid">
+                        <form action="{{ url_for('checkout') }}" method="post">
+                            <button class="btn btn-success my-auto" type="submit">Place order</button>
+                            <button formaction="{{ url_for('clear_cart') }}" class="btn btn-danger float-end"
+                                type="submit">Clear cart</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

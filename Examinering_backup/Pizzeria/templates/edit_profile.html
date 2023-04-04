@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+{% block content %}
+<title>Edit Profile</title>
+<div class="container mt-4">
+    <div class="text-center my-4">
+        <h1>
+            <i class="fas fa-user-circle"></i> Edit Contact Info
+        </h1>
+    </div>
+    <div class="row">
+        <div class="col">
+            <form action="{{ url_for('edit_contact_info') }}" method="POST">
+                <div class="mb-3">
+                    <label for="username" class="form-label">Name:</label>
+                    <input type="text" class="form-control" id="username" name="username"
+                        value="{{ current_user.username if current_user.username }}">
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email:</label>
+                    <input type="email" class="form-control" id="email" name="email"
+                        value="{{ current_user.email if current_user.email }}" placeholder="Email (Optional)">
+                </div>
+                <div class="mb-3">
+                    <label for="phone" class="form-label">Phone:</label>
+                    <input type="text" class="form-control" id="phone" name="phone"
+                        value="{{ current_user.phone if current_user.phone }}" placeholder="Phone (Optional)">
+                </div>
+                <div class="mb-3">
+                    <label for="address" class="form-label">Address:</label>
+                    <input type="text" class="form-control" id="address" name="address"
+                        value="{{ current_user.address if current_user.address }}" placeholder="Address (Optional)">
+                </div>
+                <button type="submit" class="btn btn-success">Save Changes</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
