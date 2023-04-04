@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container">
+    <title>Contact</title>
+    <div class="card my-5" id="contactcard">
+        <div class="card-body">
+            <h1>Contact us! <h5><p>(Currently disabled)</p></h5></h1>
+            <p>Phone: 123-456-7890</p>
+            <p>Address: Isafjordsgatan 30A, 164 40 Kista</p>
+            <p>Hours: 9am-5pm, Monday-Friday</p>
+            <p>For questions, comments, or concerns, please fill out the form below.</p>
+            <form id="contactform" action="{{ url_for('contact') }}" method="post">
+                <div class="form-outline mb-4">
+                    <label class="form-label">Name:</label>
+                    <input type="text" id="name" name="name" class="form-control" placeholder="Enter your name"
+                        disabled />
+                </div>
+                <div class="form-outline mb-4">
+                    <label class="form-label">Email:</label>
+                    <input type="email" id="email" name="email" class="form-control" placeholder="Enter your email"
+                        disabled />
+                </div>
+                <div class="form-outline mb-4">
+                    <label class="form-label">Message:</label>
+                    <textarea id="message" name="message" class="form-control" placeholder="Enter your message"
+                        disabled></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block mb-4" disabled>Submit</button>
+            </form>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

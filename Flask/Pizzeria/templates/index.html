@@ -1,0 +1,52 @@
+{% extends "layout.html" %}
+{% block content %}
+<title>Home</title>
+{% if "user" in session %}
+<div class="container mt-4">
+    <div class="card mt-4">
+        <div class="card-body rounded" style="background-color: coral;">
+            <h4 class="card-title text-center">Welcome to The Perfect Slice! 🍕</h4>
+            <p class="card-text">
+                We're thrilled to have you here! At our pizzeria, we take pride in serving you the finest, mouthwatering
+                pizzas,
+                crafted with love and the freshest ingredients. Our menu features a delicious selection of classic and
+                innovative pizzas that will tantalize your taste buds. So sit back, relax, and let us bring the joy of a
+                perfect
+                pizza right to your doorstep.
+            </p>
+            <p class="text-center font-weight-bold">Happy ordering! 😊</p>
+        </div>
+    </div>
+</div>
+<div class="container mt-5">
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        <div class="col">
+            <div class="card">
+                <img src="/static/calzone.png" alt="calzone" class="card-img-top rounded shadow" style="height: 25rem;">
+                <div class="card-body" style="background-color: coral;">
+                    <h5 class="card-title text-center">Calzone</h5>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card">
+                <img src="/static/margeritha.png" alt="margeritha" class="card-img-top rounded shadow"
+                    style="height: 25rem;">
+                <div class="card-body" style="background-color: coral;">
+                    <h5 class="card-title text-center">Margeritha</h5>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card">
+                <img src="/static/pepperoni.png" alt="pepperoni" class="card-img-top rounded shadow"
+                    style="height: 25rem;">
+                <div class="card-body" style="background-color: coral;">
+                    <h5 class="card-title text-center">Pepperoni</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

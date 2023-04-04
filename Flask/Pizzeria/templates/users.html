@@ -1,0 +1,48 @@
+{% extends "index.html" %}
+{% block content %}
+<title>Manage users</title>
+<section class="intro">
+    <div class="gradient-custom-2 my-5 ">
+        <div class="mask d-flex align-items-center">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-12">
+                        <h1 class="text-center text mb-5">Manage Users</h1>
+                        <div class="table-responsive rounded">
+                            <table class="table table-dark table-bordered mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Username</th>
+                                        <th>Date</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for user in all_users %}
+                                    <tr>
+                                        <td>{{ user.id }}</td>
+                                        <td>{{ user.username }}</td>
+                                        <td>{{ user.date }}</td>
+                                        <td>
+                                            <div class="action-buttons">
+                                                <form action="{{ url_for('delete_user', user_id=user.id) }}"
+                                                    method="post">
+                                                    <button type="submit" class="btn btn-danger btn-sm mx-2 my-2">
+                                                        Delete users
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

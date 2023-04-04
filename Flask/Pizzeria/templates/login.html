@@ -1,0 +1,58 @@
+{% extends "layout.html" %}
+{% block content %}
+
+{% if "admin" not in session and "user" not in session %}
+
+
+<form id="loginform" action="{{ url_for('login') }}" method="post">
+    <div class="text-center">
+        <h4>
+            <p>Welcome, please log in, sign up or continue as guest!</p>
+        </h4>
+    </div>
+
+    <!-- Username input -->
+    <div id="loginformcontainer" class="form-outline mb-4">
+        <label class="form-label">Username:</label>
+        <input type="username" id="username" name="username" class="form-control" placeholder="Enter a username" required/>
+    </div>
+
+    <!-- Password input -->
+    <div class="form-outline mb-4">
+        <label class="form-label">Password:</label>
+        <input type="password" id="password" name="password" class="form-control" placeholder="Enter a password" required/>
+    </div>
+
+    <!-- Submit button -->
+    <button type="submit" class="btn btn-primary btn-block mb-4">Log in</button>
+
+    <!-- Hidden input for 'Continue as guest' button -->
+    <button name="guestlogin" type="button" class="btn btn-primary btn-block mb-4 float-end"
+        onclick="location.href='{{ url_for('index') }}'">Continue as guest</button>
+
+    <!-- Register redirect -->
+    <div class="text-start">
+        <p>Not a member? <a href="signup">Register</a></p>
+    </div>
+</form>
+
+{% else %}
+<div class="container-fluid">
+    <div class="row justify-content-center align-items-center">
+        <div id="loggedin-card" class="card">
+            <div class="card-body">
+                <h4 class="card-title mb-4">You are already logged in <br><br>
+                    <p>User: {{ session["user"] }}</p>
+                </h4>
+                <h5 class="card-subtitle mb-4"> <br> Continue browsing or log out!</h5>
+                <button type="button" class="btn btn-primary btn-block mb-4"
+                    onclick="location.href='{{ url_for('index') }}'">Continue browsing</button>
+                <button type="button" class="btn btn-primary btn-block mb-4 float-end"
+                    onclick="location.href='{{ url_for('logout') }}'">Log out</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endif %}
+{% endblock content %}
