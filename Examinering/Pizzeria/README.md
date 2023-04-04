@@ -5,6 +5,7 @@ Features
 
     User registration and login
     Guest-login (no registration required), with limited functionality
+    Database for users, orders and pizzas, using SQLite and SQLAlchemy with password hashing using Werkzeug
     Admin user management
     Pizza menu management (add, edit, delete pizzas)
     Place orders (add items to cart and checkout)
