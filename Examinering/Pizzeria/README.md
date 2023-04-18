@@ -46,4 +46,5 @@ Pizza Shop is a web application built with Flask, SQLite, and pandas. It allows 
 
 ## License
 
-Created by Charlie Rosander. This project is licensed under the MIT License.
+Created by Charlie Rosander. 
+This project is licensed under the MIT License.
