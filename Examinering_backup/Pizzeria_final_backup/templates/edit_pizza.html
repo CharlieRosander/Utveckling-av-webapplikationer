@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+{% block content %}
+{% if "admin" in session["user"] %}
+<title>Edit pizza</title>
+<div class="d-flex">
+    <div id="editpizza" class="card my-5 mx-auto">
+        <div class="card-header display-2">
+            Edit pizza
+        </div>
+        <div class="card-body">
+            <form action="{{ url_for('edit_pizza', pizza_id=pizza['id']) }}" method="post">
+                <div class="form-group my-4">
+                    <label for="name">Name</label>
+                    <input type="text" name="name" id="name" class="form-control">
+                </div>
+                <div class="form-group my-4">
+                    <label for="price">Price</label>
+                    <input type="number" name="price" id="price" class="form-control">
+                </div>
+                <div class="form-group my-4">
+                    <label for="size">Size</label>
+                    <input type="text" name="size" id="size" class="form-control">
+                </div>
+                <div class="form-group my-4">
+                    <label for="toppings">Toppings</label>
+                    <input type="text" name="toppings" id="toppings" class="form-control">
+                </div>
+                <input type="submit" value="Save changes" class="btn btn-success my-2 ">
+            </form>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
